@@ -34,6 +34,7 @@ public class OscillatorGroup {
     private final LowPassFilter lowPassFilter2 = new LowPassFilter();
 
     private final Patch[] patches = new Patch[21];
+    private final Patch[] oscillatorPatches = new Patch[3];
 
     private double key1Frequency;
     private double key2Frequency;
@@ -49,6 +50,13 @@ public class OscillatorGroup {
 
     public OscillatorGroup() {
         for (int i = 0; i < patches.length; i++) patches[i] = new Patch();
+        for (int i = 0; i < oscillatorPatches.length; i++) oscillatorPatches[i] = new Patch();
+
+        // oscillators activation
+        oscillator1.getInput(0).connectPatch(oscillatorPatches[0]);
+        oscillator1.getInput(0).connectPatch(oscillatorPatches[1]);
+        oscillator1.getInput(0).connectPatch(oscillatorPatches[2]);
+
 
         // oscillators interaction
         oscillator1.getOutput(0).connectPatch(patches[0]);
@@ -78,6 +86,7 @@ public class OscillatorGroup {
 
         // noise setup: always active, starts muted
         noise.getInput(0).write(1);
+        noise.getController(0).setValue(5);
         noise.getController(4).setValue(0);
 
         noise.getOutput(1).connectPatch(patches[7]);

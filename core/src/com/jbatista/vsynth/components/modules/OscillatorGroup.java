@@ -1,4 +1,4 @@
-package com.jbatista.vsynth.components;
+package com.jbatista.vsynth.components.modules;
 
 import com.jbatista.bricks.components.OutputConnector;
 import com.jbatista.bricks.components.Patch;

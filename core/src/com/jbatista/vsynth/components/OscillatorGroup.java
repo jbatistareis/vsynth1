@@ -34,7 +34,7 @@ public class OscillatorGroup {
     private final LowPassFilter lowPassFilter2 = new LowPassFilter();
 
     private final Patch[] patches = new Patch[21];
-    private final Patch[] oscillatorPatches = new Patch[3];
+    private final Patch[] oscillatorPatches = new Patch[4];
 
     private double key1Frequency;
     private double key2Frequency;
@@ -54,8 +54,9 @@ public class OscillatorGroup {
 
         // oscillators activation
         oscillator1.getInput(0).connectPatch(oscillatorPatches[0]);
-        oscillator1.getInput(0).connectPatch(oscillatorPatches[1]);
-        oscillator1.getInput(0).connectPatch(oscillatorPatches[2]);
+        oscillator2.getInput(0).connectPatch(oscillatorPatches[1]);
+        oscillator3.getInput(0).connectPatch(oscillatorPatches[2]);
+        noise.getInput(0).connectPatch(oscillatorPatches[3]);
 
 
         // oscillators interaction
@@ -97,6 +98,9 @@ public class OscillatorGroup {
         oscillator3.getOutput(1).connectPatch(patches[9]);
         noisePassthrough.getOutput(0).connectPatch(patches[10]);
 
+        oscillatorMixer1.getController(0).setValue(0.05);
+        oscillatorMixer1.getController(1).setValue(0.05);
+        oscillatorMixer1.getController(2).setValue(0.05);
         oscillatorMixer1.getInput(0).connectPatch(patches[8]);
         oscillatorMixer1.getInput(1).connectPatch(patches[9]);
         oscillatorMixer1.getInput(2).connectPatch(patches[10]);
@@ -105,6 +109,8 @@ public class OscillatorGroup {
         oscillator2.getOutput(1).connectPatch(patches[11]);
         noisePassthrough.getOutput(1).connectPatch(patches[12]);
 
+        oscillatorMixer2.getController(0).setValue(0.05);
+        oscillatorMixer2.getController(1).setValue(0.05);
         oscillatorMixer2.getInput(0).connectPatch(patches[11]);
         oscillatorMixer2.getInput(1).connectPatch(patches[12]);
 
@@ -140,16 +146,16 @@ public class OscillatorGroup {
         key1Frequency = frequency * OCTAVE_RATIOS[octaveOffset1];
 
         oscillator1.getInput(0).write(key1Frequency);
-        oscillatorEnvelope1.getInput(1).write(key1Frequency);
-        filterEnvelope1.getInput(1).write(key1Frequency);
+        oscillatorEnvelope1.getInput(1).write(1);
+        filterEnvelope1.getInput(1).write(1);
     }
 
     public void pressKey2(double frequency) {
         key2Frequency = frequency * OCTAVE_RATIOS[octaveOffset2] * oscillator2fineTune;
 
         oscillator2.getInput(0).write(key2Frequency);
-        oscillatorEnvelope2.getInput(1).write(key2Frequency);
-        filterEnvelope2.getInput(1).write(key2Frequency);
+        oscillatorEnvelope2.getInput(1).write(1);
+        filterEnvelope2.getInput(1).write(1);
     }
 
     public OutputConnector getSoundOutput() {

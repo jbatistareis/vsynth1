@@ -9,9 +9,9 @@ public class Rack {
 
     public enum Mode {MONO, POLY}
 
-    private final OscillatorGroup oscillatorGroup = new OscillatorGroup();
-    private final Keyboard keyboard = new Keyboard();
-    private final SoundOut soundOut = new SoundOut();
+    private final InstrumentBoard instrumentBoard = new InstrumentBoard();
+    private final Keyboard keyboard = new Keyboard(instrumentBoard.getInstrument());
+    private final SoundOut soundOut = new SoundOut(instrumentBoard.getInstrument());
 
     private final Patch[] patches = new Patch[3];
     private final double[] frame = new double[2];
@@ -22,13 +22,13 @@ public class Rack {
     public Rack() {
         for (int i = 0; i < patches.length; i++) patches[i] = new Patch();
 
-        oscillatorGroup.getSoundOutput().connectPatch(patches[0]);
+        instrumentBoard.getSoundOutput().connectPatch(patches[0]);
         soundOut.getInput(0).connectPatch(patches[0]);
     }
 
     public void getFrame(double[] buffer, int size) {
-        oscillatorGroup.pressKey1(keyboard.getOutput(0).read());
-        oscillatorGroup.pressKey2(keyboard.getOutput(mode.equals(Mode.MONO) ? 0 : 1).read());
+        instrumentBoard.pressKey1(keyboard.getOutput(0).read());
+        instrumentBoard.pressKey2(keyboard.getOutput(mode.equals(Mode.MONO) ? 0 : 1).read());
 
         for (bufferIndex = 0; bufferIndex < size; bufferIndex += 2) {
             soundOut.getDoubleFrame(frame);

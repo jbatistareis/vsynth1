@@ -1,43 +1,46 @@
 package com.jbatista.vsynth.components.modules;
 
+import com.jbatista.bricks.Instrument;
 import com.jbatista.bricks.components.OutputConnector;
 import com.jbatista.bricks.components.Patch;
 import com.jbatista.bricks.components.builtin.*;
 
-public class OscillatorGroup {
+public class InstrumentBoard {
 
     private static final double[] OCTAVE_RATIOS = new double[]{0.25, 0.5, 1, 1.5, 2.0};
 
-    private final EnvelopeGenerator oscillatorEnvelope1 = new EnvelopeGenerator();
-    private final EnvelopeGenerator oscillatorEnvelope2 = new EnvelopeGenerator();
+    private final Instrument instrument = new Instrument();
 
-    private final Oscillator oscillator1 = new Oscillator();
-    private final Oscillator oscillator2 = new Oscillator();
-    private final Oscillator oscillator3 = new Oscillator();
-    private final Oscillator noise = new Oscillator();
-    private final Lfo lfo = new Lfo();
+    private final EnvelopeGenerator oscillatorEnvelope1 = new EnvelopeGenerator(instrument);
+    private final EnvelopeGenerator oscillatorEnvelope2 = new EnvelopeGenerator(instrument);
 
-    private final Passthrough noisePassthrough = new Passthrough();
-    private final Passthrough oscillatorFmPassthrough = new Passthrough();
+    private final Oscillator oscillator1 = new Oscillator(instrument);
+    private final Oscillator oscillator2 = new Oscillator(instrument);
+    private final Oscillator oscillator3 = new Oscillator(instrument);
+    private final Oscillator noise = new Oscillator(instrument);
+    private final Lfo lfo = new Lfo(instrument);
 
-    private final Mixer oscillatorMixer1 = new Mixer();
-    private final Mixer oscillatorMixer2 = new Mixer();
-    private final Mixer oscillatorFmMixer1 = new Mixer();
-    private final Mixer oscillatorFmMixer2 = new Mixer();
+    private final Passthrough noisePassthrough = new Passthrough(instrument);
+    private final Passthrough oscillatorFmPassthrough = new Passthrough(instrument);
 
-    private final Mixer mainMixer = new Mixer();
+    private final Mixer oscillatorMixer1 = new Mixer(instrument);
+    private final Mixer oscillatorMixer2 = new Mixer(instrument);
+    private final Mixer oscillatorFmMixer1 = new Mixer(instrument);
+    private final Mixer oscillatorFmMixer2 = new Mixer(instrument);
 
-    private final EnvelopeGenerator filterEnvelope1 = new EnvelopeGenerator();
-    private final EnvelopeGenerator filterEnvelope2 = new EnvelopeGenerator();
+    private final Mixer mainMixer = new Mixer(instrument);
 
-    private final LowPassFilter lowPassFilter1 = new LowPassFilter();
-    private final LowPassFilter lowPassFilter2 = new LowPassFilter();
+    private final EnvelopeGenerator filterEnvelope1 = new EnvelopeGenerator(instrument);
+    private final EnvelopeGenerator filterEnvelope2 = new EnvelopeGenerator(instrument);
+
+    private final LowPassFilter lowPassFilter1 = new LowPassFilter(instrument);
+    private final LowPassFilter lowPassFilter2 = new LowPassFilter(instrument);
 
     private final Patch[] patches = new Patch[21];
     private final Patch[] oscillatorPatches = new Patch[4];
 
-    private double key1Frequency;
-    private double key2Frequency;
+    private boolean key1ZeroFreq = false;
+    private boolean key2ZeroFreq = false;
 
     private double oscillatorModulationWheel = 0;
     private double filterModulationWheel = 0;
@@ -48,7 +51,7 @@ public class OscillatorGroup {
 
     private boolean onlyModulateOscillator2 = false;
 
-    public OscillatorGroup() {
+    public InstrumentBoard() {
         for (int i = 0; i < patches.length; i++) patches[i] = new Patch();
         for (int i = 0; i < oscillatorPatches.length; i++) oscillatorPatches[i] = new Patch();
 
@@ -142,20 +145,30 @@ public class OscillatorGroup {
         mainMixer.getInput(1).connectPatch(patches[20]);
     }
 
-    public void pressKey1(double frequency) {
-        key1Frequency = frequency * OCTAVE_RATIOS[octaveOffset1];
+    public synchronized void pressKey1(double frequency) {
+        key1ZeroFreq = frequency == 0;
 
-        oscillator1.getInput(0).write(key1Frequency);
-        oscillatorEnvelope1.getInput(1).write(1);
-        filterEnvelope1.getInput(1).write(1);
+        oscillator1.getInput(0).write(key1ZeroFreq ? 0
+                : (frequency * OCTAVE_RATIOS[octaveOffset1]));
+        oscillatorEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
+        filterEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
     }
 
-    public void pressKey2(double frequency) {
-        key2Frequency = frequency * OCTAVE_RATIOS[octaveOffset2] * oscillator2fineTune;
+    public synchronized void pressKey2(double frequency) {
+        key2ZeroFreq = frequency == 0;
 
-        oscillator2.getInput(0).write(key2Frequency);
-        oscillatorEnvelope2.getInput(1).write(1);
-        filterEnvelope2.getInput(1).write(1);
+        oscillator2.getInput(0).write(key2ZeroFreq ? 0
+                : (frequency * OCTAVE_RATIOS[octaveOffset2] * oscillator2fineTune));
+        oscillatorEnvelope2.getInput(1).write(key2ZeroFreq ? 0 : 1);
+        filterEnvelope2.getInput(1).write(key2ZeroFreq ? 0 : 1);
+    }
+
+    public Instrument getInstrument() {
+        return instrument;
+    }
+
+    public void runInstrumentProcess() {
+        instrument.runProcess();
     }
 
     public OutputConnector getSoundOutput() {
@@ -293,6 +306,17 @@ public class OscillatorGroup {
     // 0 ~ 1
     public void setNoiseVolume(double noiseVolume) {
         noise.getController(4).setValue(noiseVolume);
+    }
+
+    // filter
+    public double getFilterValue() {
+        return lowPassFilter1.getController(0).getValue();
+    }
+
+    // 0 ~ 1
+    public void setFilterValue(double filterValue) {
+        lowPassFilter1.getController(0).setValue(filterValue);
+        lowPassFilter2.getController(0).setValue(filterValue);
     }
 
 }

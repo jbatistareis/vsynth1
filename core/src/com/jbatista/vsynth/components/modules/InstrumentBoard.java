@@ -195,7 +195,7 @@ public class InstrumentBoard {
     }
 
     public int getLfoShape() {
-        return (int) lfo.getController(0).getDisplayValue();
+        return (int) lfo.getController(0).getValue();
     }
 
     public void onlyModulateOscillator2(boolean value) {
@@ -207,8 +207,12 @@ public class InstrumentBoard {
     }
 
     // 0 ~ 1
-    public void setLfoFrequency(double value) {
+    public void setLfoValue(double value) {
         lfo.getController(1).setValue(value);
+    }
+
+    public double getLfoValue() {
+        return lfo.getController(1).getValue();
     }
 
     public double getLfoFrequency() {
@@ -535,6 +539,10 @@ public class InstrumentBoard {
     public void setFilterValue(double filterValue) {
         lowPassFilter1.getController(0).setValue(filterValue);
         lowPassFilter2.getController(0).setValue(filterValue);
+    }
+
+    public double getFilterFrequency() {
+        return lowPassFilter1.getController(0).getDisplayValue();
     }
 
     public void setFilterAttackLevel(double filterAttackLevel) {

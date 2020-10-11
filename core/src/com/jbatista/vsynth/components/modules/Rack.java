@@ -13,17 +13,15 @@ public class Rack {
     private final Keyboard keyboard = new Keyboard(instrumentBoard.getInstrument());
     private final SoundOut soundOut = new SoundOut(instrumentBoard.getInstrument());
 
-    private final Patch[] patches = new Patch[3];
+    private final Patch patch = new Patch();
     private final double[] frame = new double[2];
 
     private int bufferIndex;
     private Mode mode = Mode.MONO;
 
     public Rack() {
-        for (int i = 0; i < patches.length; i++) patches[i] = new Patch();
-
-        instrumentBoard.getSoundOutput().connectPatch(patches[0]);
-        soundOut.getInput(0).connectPatch(patches[0]);
+        instrumentBoard.getSoundOutput().connectPatch(patch);
+        soundOut.getInput(0).connectPatch(patch);
     }
 
     public void getFrame(double[] buffer, int size) {

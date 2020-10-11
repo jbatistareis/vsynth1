@@ -14,6 +14,9 @@ public class InstrumentBoard {
     private final EnvelopeGenerator oscillatorEnvelope1 = new EnvelopeGenerator(instrument);
     private final EnvelopeGenerator oscillatorEnvelope2 = new EnvelopeGenerator(instrument);
 
+    private final EnvelopeGenerator pitchEnvelope1 = new EnvelopeGenerator(instrument);
+    private final EnvelopeGenerator pitchEnvelope2 = new EnvelopeGenerator(instrument);
+
     private final Oscillator oscillator1 = new Oscillator(instrument);
     private final Oscillator oscillator2 = new Oscillator(instrument);
     private final Oscillator oscillator3 = new Oscillator(instrument);
@@ -36,8 +39,7 @@ public class InstrumentBoard {
     private final LowPassFilter lowPassFilter1 = new LowPassFilter(instrument);
     private final LowPassFilter lowPassFilter2 = new LowPassFilter(instrument);
 
-    private final Patch[] patches = new Patch[21];
-    private final Patch[] oscillatorPatches = new Patch[4];
+    private final Patch[] patches = new Patch[23];
 
     private boolean key1ZeroFreq = false;
     private boolean key2ZeroFreq = false;
@@ -53,14 +55,10 @@ public class InstrumentBoard {
 
     public InstrumentBoard() {
         for (int i = 0; i < patches.length; i++) patches[i] = new Patch();
-        for (int i = 0; i < oscillatorPatches.length; i++) oscillatorPatches[i] = new Patch();
 
         // oscillators activation
-        oscillator1.getInput(0).connectPatch(oscillatorPatches[0]);
-        oscillator2.getInput(0).connectPatch(oscillatorPatches[1]);
-        oscillator3.getInput(0).connectPatch(oscillatorPatches[2]);
-        noise.getInput(0).connectPatch(oscillatorPatches[3]);
-
+        oscillator3.getInput(0).connectPatch(new Patch());
+        noise.getInput(0).connectPatch(new Patch());
 
         // oscillators interaction
         oscillator1.getOutput(0).connectPatch(patches[0]);
@@ -131,35 +129,50 @@ public class InstrumentBoard {
         lowPassFilter1.getInput(0).connectPatch(patches[15]);
         lowPassFilter2.getInput(0).connectPatch(patches[16]);
 
-        lowPassFilter1.getOutput(0).connectPatch(patches[17]);
-        lowPassFilter2.getOutput(0).connectPatch(patches[18]);
+        // filter envelope setup
+        filterEnvelope1.getInput(0).write(1);
+        filterEnvelope2.getInput(0).write(1);
 
-        filterEnvelope1.getInput(0).connectPatch(patches[17]);
-        filterEnvelope2.getInput(0).connectPatch(patches[18]);
+        filterEnvelope1.getOutput(0).connectPatch(patches[17]);
+        filterEnvelope2.getOutput(0).connectPatch(patches[18]);
+
+        lowPassFilter1.getInput(1).connectPatch(patches[17]);
+        lowPassFilter2.getInput(1).connectPatch(patches[18]);
 
         // mixer setup: main
-        filterEnvelope1.getOutput(0).connectPatch(patches[19]);
-        filterEnvelope2.getOutput(0).connectPatch(patches[20]);
+        lowPassFilter1.getOutput(0).connectPatch(patches[19]);
+        lowPassFilter2.getOutput(0).connectPatch(patches[20]);
 
         mainMixer.getInput(0).connectPatch(patches[19]);
         mainMixer.getInput(1).connectPatch(patches[20]);
+
+        // oscillator pitch envelopes
+        pitchEnvelope1.getOutput(0).connectPatch(patches[21]);
+        pitchEnvelope2.getOutput(0).connectPatch(patches[22]);
+
+        oscillator1.getInput(0).connectPatch(patches[21]);
+        oscillator2.getInput(0).connectPatch(patches[22]);
     }
 
     public synchronized void pressKey1(double frequency) {
-        key1ZeroFreq = frequency == 0;
+        key1ZeroFreq = (frequency == 0);
 
-        oscillator1.getInput(0).write(key1ZeroFreq ? 0
-                : (frequency * OCTAVE_RATIOS[octaveOffset1]));
+        pitchEnvelope1.getInput(0).write(key1ZeroFreq ? 0 : (frequency * OCTAVE_RATIOS[octaveOffset1]));
+        pitchEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
+
         oscillatorEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
+
         filterEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
     }
 
     public synchronized void pressKey2(double frequency) {
-        key2ZeroFreq = frequency == 0;
+        key2ZeroFreq = (frequency == 0);
 
-        oscillator2.getInput(0).write(key2ZeroFreq ? 0
-                : (frequency * OCTAVE_RATIOS[octaveOffset2] * oscillator2fineTune));
+        pitchEnvelope2.getInput(0).write(key2ZeroFreq ? 0 : (frequency * OCTAVE_RATIOS[octaveOffset2] * oscillator2fineTune));
+        pitchEnvelope2.getInput(1).write(key2ZeroFreq ? 0 : 1);
+
         oscillatorEnvelope2.getInput(1).write(key2ZeroFreq ? 0 : 1);
+
         filterEnvelope2.getInput(1).write(key2ZeroFreq ? 0 : 1);
     }
 
@@ -175,7 +188,7 @@ public class InstrumentBoard {
         return mainMixer.getOutput(0);
     }
 
-    // modulation settings
+    //<editor-fold desc="modulation settings">
     // 0, 1, 2, 3, 4
     public void setLfoShape(int shape) {
         lfo.getController(0).setValue(shape);
@@ -225,15 +238,16 @@ public class InstrumentBoard {
         lowPassFilter1.getInput(1).write(this.filterModulationWheel);
         lowPassFilter2.getInput(1).write(this.filterModulationWheel);
     }
+    //</editor-fold>
 
-    // oscillators
+    //<editor-fold desc="oscillator settings">
     // 0, 1, 2, 3, 4
     public void setOscillator1Shape(int shape) {
         oscillator1.getController(0).setValue(shape);
     }
 
     public int getOscillator1Shape() {
-        return (int) oscillator1.getController(0).getDisplayValue();
+        return (int) oscillator1.getController(0).getValue();
     }
 
     // 0, 1, 2, 3, 4
@@ -242,7 +256,7 @@ public class InstrumentBoard {
     }
 
     public int getOscillator2Shape() {
-        return (int) oscillator2.getController(0).getDisplayValue();
+        return (int) oscillator2.getController(0).getValue();
     }
 
     // 0, 1, 2, 3, 4
@@ -271,9 +285,212 @@ public class InstrumentBoard {
         this.oscillator2fineTune = Math.max(0.5, Math.min(oscillator2fineTune, 1.5));
     }
 
-    // volume settings
+    public void setOscillatorAttackLevel(double oscillatorAttackLevel) {
+        oscillatorEnvelope1.getController(0).setValue(oscillatorAttackLevel);
+        oscillatorEnvelope2.getController(0).setValue(oscillatorAttackLevel);
+    }
+
+    public double getOscillatorAttackLevel() {
+        return oscillatorEnvelope1.getController(0).getValue();
+    }
+
+    public void setOscillatorDecayLevel(double oscillatorDecayLevel) {
+        oscillatorEnvelope1.getController(1).setValue(oscillatorDecayLevel);
+        oscillatorEnvelope2.getController(1).setValue(oscillatorDecayLevel);
+    }
+
+    public double getOscillatorDecayLevel() {
+        return oscillatorEnvelope1.getController(1).getValue();
+    }
+
+    public void setOscillatorSustainLevel(double oscillatorSustainLevel) {
+        oscillatorEnvelope1.getController(2).setValue(oscillatorSustainLevel);
+        oscillatorEnvelope2.getController(2).setValue(oscillatorSustainLevel);
+    }
+
+    public double getOscillatorSustainLevel() {
+        return oscillatorEnvelope1.getController(2).getValue();
+    }
+
+    public void setOscillatorReleaseLevel(double oscillatorReleaseLevel) {
+        oscillatorEnvelope1.getController(3).setValue(oscillatorReleaseLevel);
+        oscillatorEnvelope2.getController(3).setValue(oscillatorReleaseLevel);
+    }
+
+    public double getOscillatorReleaseLevel() {
+        return oscillatorEnvelope1.getController(3).getValue();
+    }
+
+    public void setOscillatorAttackSpeed(double oscillatorAttackSpeed) {
+        oscillatorEnvelope1.getController(4).setValue(oscillatorAttackSpeed);
+        oscillatorEnvelope2.getController(4).setValue(oscillatorAttackSpeed);
+    }
+
+    public double getOscillatorAttackSpeed() {
+        return oscillatorEnvelope1.getController(4).getValue();
+    }
+
+    public void setOscillatorDecaySpeed(double oscillatorDecaySpeed) {
+        oscillatorEnvelope1.getController(5).setValue(oscillatorDecaySpeed);
+        oscillatorEnvelope2.getController(5).setValue(oscillatorDecaySpeed);
+    }
+
+    public double getOscillatorDecaySpeed() {
+        return oscillatorEnvelope1.getController(5).getValue();
+    }
+
+    public void setOscillatorSustainSpeed(double oscillatorSustainSpeed) {
+        oscillatorEnvelope1.getController(6).setValue(oscillatorSustainSpeed);
+        oscillatorEnvelope2.getController(6).setValue(oscillatorSustainSpeed);
+    }
+
+    public double getOscillatorSustainSpeed() {
+        return oscillatorEnvelope1.getController(6).getValue();
+    }
+
+    public void setOscillatorReleaseSpeed(double oscillatorReleaseSpeed) {
+        oscillatorEnvelope1.getController(7).setValue(oscillatorReleaseSpeed);
+        oscillatorEnvelope2.getController(7).setValue(oscillatorReleaseSpeed);
+    }
+
+    public double getOscillatorReleaseSpeed() {
+        return oscillatorEnvelope1.getController(7).getValue();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="pitch envelope">
+    public void setPitchAttackLevel1(double pitchAttackLevel) {
+        pitchEnvelope1.getController(0).setValue(pitchAttackLevel);
+    }
+
+    public double getPitchAttackLevel1() {
+        return pitchEnvelope1.getController(0).getValue();
+    }
+
+    public void setPitchDecayLevel1(double pitchDecayLevel) {
+        pitchEnvelope1.getController(1).setValue(pitchDecayLevel);
+    }
+
+    public double getPitchDecayLevel1() {
+        return pitchEnvelope1.getController(1).getValue();
+    }
+
+    public void setPitchSustainLevel1(double pitchSustainLevel) {
+        pitchEnvelope1.getController(2).setValue(pitchSustainLevel);
+    }
+
+    public double getPitchSustainLevel1() {
+        return pitchEnvelope1.getController(2).getValue();
+    }
+
+    public void setPitchReleaseLevel1(double pitchReleaseLevel) {
+        pitchEnvelope1.getController(3).setValue(pitchReleaseLevel);
+    }
+
+    public double getPitchReleaseLevel1() {
+        return pitchEnvelope1.getController(3).getValue();
+    }
+
+    public void setPitchAttackSpeed1(double pitchAttackSpeed) {
+        pitchEnvelope1.getController(4).setValue(pitchAttackSpeed);
+    }
+
+    public double getPitchAttackSpeed1() {
+        return pitchEnvelope1.getController(4).getValue();
+    }
+
+    public void setPitchDecaySpeed1(double pitchDecaySpeed) {
+        pitchEnvelope1.getController(5).setValue(pitchDecaySpeed);
+    }
+
+    public double getPitchDecaySpeed1() {
+        return pitchEnvelope1.getController(5).getValue();
+    }
+
+    public void setPitchSustainSpeed1(double pitchSustainSpeed) {
+        pitchEnvelope1.getController(6).setValue(pitchSustainSpeed);
+    }
+
+    public double getPitchSustainSpeed1() {
+        return pitchEnvelope1.getController(6).getValue();
+    }
+
+    public void setPitchReleaseSpeed1(double pitchReleaseSpeed) {
+        pitchEnvelope1.getController(7).setValue(pitchReleaseSpeed);
+    }
+
+    public double getPitchReleaseSpeed1() {
+        return pitchEnvelope1.getController(7).getValue();
+    }
+
+    public void setPitchAttackLevel2(double pitchAttackLevel) {
+        pitchEnvelope2.getController(0).setValue(pitchAttackLevel);
+    }
+
+    public double getPitchAttackLevel2() {
+        return pitchEnvelope2.getController(0).getValue();
+    }
+
+    public void setPitchDecayLevel2(double pitchDecayLevel) {
+        pitchEnvelope2.getController(1).setValue(pitchDecayLevel);
+    }
+
+    public double getPitchDecayLevel2() {
+        return pitchEnvelope2.getController(1).getValue();
+    }
+
+    public void setPitchSustainLevel2(double pitchSustainLevel) {
+        pitchEnvelope2.getController(2).setValue(pitchSustainLevel);
+    }
+
+    public double getPitchSustainLevel2() {
+        return pitchEnvelope2.getController(2).getValue();
+    }
+
+    public void setPitchReleaseLevel2(double pitchReleaseLevel) {
+        pitchEnvelope2.getController(3).setValue(pitchReleaseLevel);
+    }
+
+    public double getPitchReleaseLevel2() {
+        return pitchEnvelope2.getController(3).getValue();
+    }
+
+    public void setPitchAttackSpeed2(double pitchAttackSpeed) {
+        pitchEnvelope2.getController(4).setValue(pitchAttackSpeed);
+    }
+
+    public double getPitchAttackSpeed2() {
+        return pitchEnvelope2.getController(4).getValue();
+    }
+
+    public void setPitchDecaySpeed2(double pitchDecaySpeed) {
+        pitchEnvelope2.getController(5).setValue(pitchDecaySpeed);
+    }
+
+    public double getPitchDecaySpeed2() {
+        return pitchEnvelope2.getController(5).getValue();
+    }
+
+    public void setPitchSustainSpeed2(double pitchSustainSpeed) {
+        pitchEnvelope2.getController(6).setValue(pitchSustainSpeed);
+    }
+
+    public double getPitchSustainSpeed2() {
+        return pitchEnvelope2.getController(6).getValue();
+    }
+
+    public void setPitchReleaseSpeed2(double pitchReleaseSpeed) {
+        pitchEnvelope2.getController(7).setValue(pitchReleaseSpeed);
+    }
+
+    public double getPitchReleaseSpeed2() {
+        return pitchEnvelope2.getController(7).getValue();
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="volume settings">
     public double getOscillator1Volume() {
-        return oscillator1.getController(4).getDisplayValue();
+        return oscillator1.getController(4).getValue();
     }
 
     // 0 ~ 1
@@ -282,7 +499,7 @@ public class InstrumentBoard {
     }
 
     public double getOscillator2Volume() {
-        return oscillator2.getController(4).getDisplayValue();
+        return oscillator2.getController(4).getValue();
     }
 
     // 0 ~ 1
@@ -291,7 +508,7 @@ public class InstrumentBoard {
     }
 
     public double getOscillator3Volume() {
-        return oscillator3.getController(4).getDisplayValue();
+        return oscillator3.getController(4).getValue();
     }
 
     // 0 ~ 1
@@ -300,15 +517,16 @@ public class InstrumentBoard {
     }
 
     public double getNoiseVolume() {
-        return noise.getController(4).getDisplayValue();
+        return noise.getController(4).getValue();
     }
 
     // 0 ~ 1
     public void setNoiseVolume(double noiseVolume) {
         noise.getController(4).setValue(noiseVolume);
     }
+    //</editor-fold>
 
-    // filter
+    //<editor-fold desc="filter settings">
     public double getFilterValue() {
         return lowPassFilter1.getController(0).getValue();
     }
@@ -318,5 +536,78 @@ public class InstrumentBoard {
         lowPassFilter1.getController(0).setValue(filterValue);
         lowPassFilter2.getController(0).setValue(filterValue);
     }
+
+    public void setFilterAttackLevel(double filterAttackLevel) {
+        filterEnvelope1.getController(0).setValue(filterAttackLevel);
+        filterEnvelope2.getController(0).setValue(filterAttackLevel);
+    }
+
+    public double getFilterAttackLevel() {
+        return filterEnvelope1.getController(0).getValue();
+    }
+
+    public void setFilterDecayLevel(double filterDecayLevel) {
+        filterEnvelope1.getController(1).setValue(filterDecayLevel);
+        filterEnvelope2.getController(1).setValue(filterDecayLevel);
+    }
+
+    public double getFilterDecayLevel() {
+        return filterEnvelope1.getController(1).getValue();
+    }
+
+    public void setFilterSustainLevel(double filterSustainLevel) {
+        filterEnvelope1.getController(2).setValue(filterSustainLevel);
+        filterEnvelope2.getController(2).setValue(filterSustainLevel);
+    }
+
+    public double getFilterSustainLevel() {
+        return filterEnvelope1.getController(2).getValue();
+    }
+
+    public void setFilterReleaseLevel(double filterReleaseLevel) {
+        filterEnvelope1.getController(3).setValue(filterReleaseLevel);
+        filterEnvelope2.getController(3).setValue(filterReleaseLevel);
+    }
+
+    public double getFilterReleaseLevel() {
+        return filterEnvelope1.getController(3).getValue();
+    }
+
+    public void setFilterAttackSpeed(double filterAttackSpeed) {
+        filterEnvelope1.getController(4).setValue(filterAttackSpeed);
+        filterEnvelope2.getController(4).setValue(filterAttackSpeed);
+    }
+
+    public double getFilterAttackSpeed() {
+        return filterEnvelope1.getController(4).getValue();
+    }
+
+    public void setFilterDecaySpeed(double filterDecaySpeed) {
+        filterEnvelope1.getController(5).setValue(filterDecaySpeed);
+        filterEnvelope2.getController(5).setValue(filterDecaySpeed);
+    }
+
+    public double getFilterDecaySpeed() {
+        return filterEnvelope1.getController(5).getValue();
+    }
+
+    public void setFilterSustainSpeed(double filterSustainSpeed) {
+        filterEnvelope1.getController(6).setValue(filterSustainSpeed);
+        filterEnvelope2.getController(6).setValue(filterSustainSpeed);
+    }
+
+    public double getFilterSustainSpeed() {
+        return filterEnvelope1.getController(6).getValue();
+    }
+
+    public void setFilterReleaseSpeed(double filterReleaseSpeed) {
+        filterEnvelope1.getController(7).setValue(filterReleaseSpeed);
+        filterEnvelope2.getController(7).setValue(filterReleaseSpeed);
+    }
+
+    public double getFilterReleaseSpeed() {
+        return filterEnvelope1.getController(7).getValue();
+    }
+    //</editor-fold>
 
 }

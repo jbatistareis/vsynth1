@@ -4,14 +4,25 @@ import com.jbatista.bricks.KeyboardNote;
 import com.jbatista.bricks.components.Patch;
 import com.jbatista.bricks.components.builtin.Keyboard;
 import com.jbatista.bricks.components.builtin.SoundOut;
+import com.jbatista.vsynth.components.panels.*;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class Rack {
+public class Rack extends VisTable {
 
     public enum Mode {MONO, POLY}
 
-    private final InstrumentBoard instrumentBoard = new InstrumentBoard();
-    private final Keyboard keyboard = new Keyboard(instrumentBoard.getInstrument());
-    private final SoundOut soundOut = new SoundOut(instrumentBoard.getInstrument());
+    private final InstrumentBoard instrumentBoard;
+    private final Keyboard keyboard;
+    private final SoundOut soundOut;
+
+    private final EnvelopesPanel envelopesPanel;
+    private final FilterPanel filterPanel;
+    private final KeyboardPanel keyboardPanel;
+    private final MixerPanel mixerPanel;
+    private final ModulationPanel modulationPanel;
+    private final OscillatorsPanel oscillatorsPanel;
+    private final OutputPanel outputPanel;
+    private final PitchPanel pitchPanel;
 
     private final Patch patch = new Patch();
     private final double[] frame = new double[2];
@@ -19,19 +30,37 @@ public class Rack {
     private int bufferIndex;
     private Mode mode = Mode.MONO;
 
-    public Rack() {
-        instrumentBoard.getSoundOutput().connectPatch(patch);
+    public Rack(InstrumentBoard instrumentBoard) {
+        this.instrumentBoard = instrumentBoard;
+
+        keyboard = new Keyboard(this.instrumentBoard.getInstrument());
+        soundOut = new SoundOut(this.instrumentBoard.getInstrument());
+
+        envelopesPanel = new EnvelopesPanel(this.instrumentBoard);
+        filterPanel = new FilterPanel(this.instrumentBoard);
+        keyboardPanel = new KeyboardPanel(this.instrumentBoard);
+        mixerPanel = new MixerPanel(this.instrumentBoard);
+        modulationPanel = new ModulationPanel(this.instrumentBoard);
+        oscillatorsPanel = new OscillatorsPanel(this.instrumentBoard);
+        outputPanel = new OutputPanel(this.instrumentBoard);
+        pitchPanel = new PitchPanel(this.instrumentBoard);
+
+        this.instrumentBoard.getSoundOutput().connectPatch(patch);
         soundOut.getInput(0).connectPatch(patch);
+
+        // TODO make panel layout
     }
 
-    public void getFrame(double[] buffer, int size) {
+    public void getFrame(float[] buffer, int size) {
         instrumentBoard.pressKey1(keyboard.getOutput(0).read());
         instrumentBoard.pressKey2(keyboard.getOutput(mode.equals(Mode.MONO) ? 0 : 1).read());
 
         for (bufferIndex = 0; bufferIndex < size; bufferIndex += 2) {
+            instrumentBoard.runInstrumentProcess();
+
             soundOut.getDoubleFrame(frame);
-            buffer[bufferIndex] = frame[0];
-            buffer[bufferIndex + 1] = frame[1];
+            buffer[bufferIndex] = (float) frame[0];
+            buffer[bufferIndex + 1] = (float) frame[1];
         }
     }
 

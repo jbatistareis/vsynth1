@@ -1,11 +1,15 @@
 package com.jbatista.vsynth.components.panels;
 
+import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
 public class ModulationPanel extends VisWindow {
 
-    public ModulationPanel(String title) {
+    private final InstrumentBoard instrumentBoard;
+
+    public ModulationPanel(InstrumentBoard instrumentBoard) {
         super("Modulation");
+        this.instrumentBoard = instrumentBoard;
     }
 
 }

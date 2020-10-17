@@ -10,8 +10,8 @@ public class DesktopLauncher {
 
         config.title = "VSynth 1";
         config.vSyncEnabled = true;
-        config.width = 640;
-        config.height = 480;
+        config.width = 1280;
+        config.height = 720;
 
         new LwjglApplication(new Main(), config);
     }

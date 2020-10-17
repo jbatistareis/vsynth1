@@ -188,7 +188,7 @@ public class InstrumentBoard {
         return mainMixer.getOutput(0);
     }
 
-    //<editor-fold desc="modulation settings">
+    //<editor-fold desc="modulation settings" defaultstate="collapsed">
     // 0, 1, 2, 3, 4
     public void setLfoShape(int shape) {
         lfo.getController(0).setValue(shape);
@@ -244,7 +244,7 @@ public class InstrumentBoard {
     }
     //</editor-fold>
 
-    //<editor-fold desc="oscillator settings">
+    //<editor-fold desc="oscillator settings" defaultstate="collapsed">
     // 0, 1, 2, 3, 4
     public void setOscillator1Shape(int shape) {
         oscillator1.getController(0).setValue(shape);
@@ -362,7 +362,7 @@ public class InstrumentBoard {
     }
     //</editor-fold>
 
-    //<editor-fold desc="pitch envelope">
+    //<editor-fold desc="pitch envelope" defaultstate="collapsed">
     public void setPitchAttackLevel1(double pitchAttackLevel) {
         pitchEnvelope1.getController(0).setValue(pitchAttackLevel);
     }
@@ -492,7 +492,7 @@ public class InstrumentBoard {
     }
     //</editor-fold>
 
-    //<editor-fold desc="volume settings">
+    //<editor-fold desc="volume settings" defaultstate="collapsed">
     public double getOscillator1Volume() {
         return oscillator1.getController(4).getValue();
     }
@@ -530,7 +530,7 @@ public class InstrumentBoard {
     }
     //</editor-fold>
 
-    //<editor-fold desc="filter settings">
+    //<editor-fold desc="filter settings" defaultstate="collapsed">
     public double getFilterValue() {
         return lowPassFilter1.getController(0).getValue();
     }

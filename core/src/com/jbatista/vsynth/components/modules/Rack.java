@@ -1,11 +1,13 @@
 package com.jbatista.vsynth.components.modules;
 
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.jbatista.bricks.KeyboardNote;
 import com.jbatista.bricks.components.Patch;
 import com.jbatista.bricks.components.builtin.Keyboard;
 import com.jbatista.bricks.components.builtin.SoundOut;
 import com.jbatista.vsynth.components.panels.*;
 import com.kotcrab.vis.ui.widget.VisTable;
+import javafx.scene.layout.HBox;
 
 public class Rack extends VisTable {
 
@@ -24,6 +26,8 @@ public class Rack extends VisTable {
     private final OutputPanel outputPanel;
     private final PitchPanel pitchPanel;
 
+    private final HorizontalGroup keyboardArea = new HorizontalGroup();
+
     private final Patch patch = new Patch();
     private final double[] frame = new double[2];
 
@@ -32,6 +36,7 @@ public class Rack extends VisTable {
 
     public Rack(InstrumentBoard instrumentBoard) {
         this.instrumentBoard = instrumentBoard;
+        setFillParent(true);
 
         keyboard = new Keyboard(this.instrumentBoard.getInstrument());
         soundOut = new SoundOut(this.instrumentBoard.getInstrument());
@@ -48,7 +53,19 @@ public class Rack extends VisTable {
         this.instrumentBoard.getSoundOutput().connectPatch(patch);
         soundOut.getInput(0).connectPatch(patch);
 
-        // TODO make panel layout
+        add(modulationPanel).expand();
+        add(oscillatorsPanel).expand();
+        add(filterPanel).expand();
+        add(envelopesPanel).expand().row();
+
+        add(mixerPanel).colspan(2).expand();
+        add(outputPanel).colspan(2).expand().row();
+
+        keyboardArea.space(5);
+        keyboardArea.addActor(pitchPanel);
+        keyboardArea.addActor(keyboardPanel);
+        keyboardArea.expand();
+        add(keyboardArea).colspan(4).expand().row();
     }
 
     public void getFrame(float[] buffer, int size) {

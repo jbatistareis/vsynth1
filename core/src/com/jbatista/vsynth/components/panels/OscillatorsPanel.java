@@ -9,6 +9,7 @@ public class OscillatorsPanel extends VisWindow {
 
     public OscillatorsPanel(InstrumentBoard instrumentBoard) {
         super("Oscillators");
+        setMovable(false);
         this.instrumentBoard = instrumentBoard;
     }
 

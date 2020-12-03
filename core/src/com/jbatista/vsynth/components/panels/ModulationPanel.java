@@ -9,6 +9,7 @@ public class ModulationPanel extends VisWindow {
 
     public ModulationPanel(InstrumentBoard instrumentBoard) {
         super("Modulation");
+        setMovable(false);
         this.instrumentBoard = instrumentBoard;
     }
 

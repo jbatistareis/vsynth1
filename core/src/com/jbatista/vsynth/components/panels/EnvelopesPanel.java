@@ -9,6 +9,7 @@ public class EnvelopesPanel extends VisWindow {
 
     public EnvelopesPanel(InstrumentBoard instrumentBoard) {
         super("Envelopes");
+        setMovable(false);
         this.instrumentBoard = instrumentBoard;
     }
 

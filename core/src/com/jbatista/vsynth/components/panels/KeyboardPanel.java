@@ -9,6 +9,7 @@ public class KeyboardPanel extends VisWindow {
 
     public KeyboardPanel(InstrumentBoard instrumentBoard) {
         super("Keyboard");
+        setMovable(false);
         this.instrumentBoard = instrumentBoard;
     }
 

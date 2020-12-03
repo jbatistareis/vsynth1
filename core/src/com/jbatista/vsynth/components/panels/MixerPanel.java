@@ -9,6 +9,7 @@ public class MixerPanel extends VisWindow {
 
     public MixerPanel(InstrumentBoard instrumentBoard) {
         super("Mixer");
+        setMovable(false);
         this.instrumentBoard = instrumentBoard;
     }
 

@@ -9,6 +9,7 @@ public class OutputPanel extends VisWindow {
 
     public OutputPanel(InstrumentBoard instrumentBoard) {
         super("Output");
+        setMovable(false);
         this.instrumentBoard = instrumentBoard;
     }
 

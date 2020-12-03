@@ -9,6 +9,7 @@ public class FilterPanel extends VisWindow {
 
     public FilterPanel(InstrumentBoard instrumentBoard) {
         super("Filter");
+        setMovable(false);
         this.instrumentBoard = instrumentBoard;
     }
 

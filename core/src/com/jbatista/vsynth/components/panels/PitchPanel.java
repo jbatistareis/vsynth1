@@ -9,6 +9,7 @@ public class PitchPanel extends VisWindow {
 
     public PitchPanel(InstrumentBoard instrumentBoard) {
         super("Pitch");
+        setMovable(false);
         this.instrumentBoard = instrumentBoard;
     }
 

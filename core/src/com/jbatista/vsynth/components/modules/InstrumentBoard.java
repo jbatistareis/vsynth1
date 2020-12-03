@@ -536,13 +536,27 @@ public class InstrumentBoard {
     }
 
     // 0 ~ 1
-    public void setFilterValue(double filterValue) {
-        lowPassFilter1.getController(0).setValue(filterValue);
-        lowPassFilter2.getController(0).setValue(filterValue);
+    public void setFilterCutoff(double cutoff) {
+        lowPassFilter1.getController(0).setValue(cutoff);
+        lowPassFilter2.getController(0).setValue(cutoff);
     }
 
-    public double getFilterFrequency() {
+    public double getFilterCutoff() {
+        return lowPassFilter1.getController(0).getValue();
+    }
+
+    public double getFilterCutoffFrequency() {
         return lowPassFilter1.getController(0).getDisplayValue();
+    }
+
+    // 0 ~ 1
+    public void setFilterResonance(double resonance) {
+        lowPassFilter1.getController(1).setValue(resonance);
+        lowPassFilter2.getController(1).setValue(resonance);
+    }
+
+    public double getFilterRessonance() {
+        return lowPassFilter1.getController(1).getValue();
     }
 
     public void setFilterAttackLevel(double filterAttackLevel) {

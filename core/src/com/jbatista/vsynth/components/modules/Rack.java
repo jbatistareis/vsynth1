@@ -7,7 +7,6 @@ import com.jbatista.bricks.components.builtin.Keyboard;
 import com.jbatista.bricks.components.builtin.SoundOut;
 import com.jbatista.vsynth.components.panels.*;
 import com.kotcrab.vis.ui.widget.VisTable;
-import javafx.scene.layout.HBox;
 
 public class Rack extends VisTable {
 

@@ -49,6 +49,7 @@ public class InstrumentBoard {
 
     private int octaveOffset1 = 2;
     private int octaveOffset2 = 2;
+    private double oscillator1fineTune = 1;
     private double oscillator2fineTune = 1;
 
     private boolean onlyModulateOscillator2 = false;
@@ -157,7 +158,7 @@ public class InstrumentBoard {
     public synchronized void pressKey1(double frequency) {
         key1ZeroFreq = (frequency == 0);
 
-        pitchEnvelope1.getInput(0).write(key1ZeroFreq ? 0 : (frequency * OCTAVE_RATIOS[octaveOffset1]));
+        pitchEnvelope1.getInput(0).write(key1ZeroFreq ? 0 : (frequency * OCTAVE_RATIOS[octaveOffset1] * oscillator1fineTune));
         pitchEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
 
         oscillatorEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
@@ -279,6 +280,14 @@ public class InstrumentBoard {
 
     public int getOctaveOffset2() {
         return octaveOffset2;
+    }
+
+    public double getOscillator1fineTune() {
+        return oscillator1fineTune;
+    }
+
+    public void setOscillator1fineTune(double oscillator1fineTune) {
+        this.oscillator1fineTune = Math.max(0.5, Math.min(oscillator1fineTune, 1.5));
     }
 
     public double getOscillator2fineTune() {

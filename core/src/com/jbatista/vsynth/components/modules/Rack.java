@@ -52,7 +52,6 @@ public class Rack extends VisTable {
         this.instrumentBoard.getSoundOutput().connectPatch(patch);
         soundOut.getInput(0).connectPatch(patch);
 
-        add(pitchPanel).expand();
         add(modulationPanel).expand();
         add(oscillatorsPanel).expand();
         add(filterPanel).expand();
@@ -61,11 +60,13 @@ public class Rack extends VisTable {
         add(mixerPanel).colspan(2).expand();
         add(outputPanel).colspan(2).expand().row();
 
-        keyboardArea.space(5);
-        // keyboardArea.addActor();
+        keyboardArea.space(4);
+        keyboardArea.addActor(pitchPanel);
         keyboardArea.addActor(keyboardPanel);
         keyboardArea.expand();
-        add(keyboardArea).colspan(5).expand().row();
+        add(keyboardArea).colspan(4).expand().row();
+
+        pressKey(KeyboardNote.A_4);
     }
 
     public void getFrame(float[] buffer, int size) {

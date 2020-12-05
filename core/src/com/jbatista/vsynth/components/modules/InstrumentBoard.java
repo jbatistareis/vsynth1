@@ -41,9 +41,6 @@ public class InstrumentBoard {
 
     private final Patch[] patches = new Patch[23];
 
-    private boolean key1ZeroFreq = false;
-    private boolean key2ZeroFreq = false;
-
     private double oscillatorModulationWheel = 0;
     private double filterModulationWheel = 0;
 
@@ -156,25 +153,39 @@ public class InstrumentBoard {
     }
 
     public synchronized void pressKey1(double frequency) {
-        key1ZeroFreq = (frequency == 0);
+        if (frequency > 0) {
+            pitchEnvelope1.getInput(0).write(frequency * OCTAVE_RATIOS[octaveOffset1] * oscillator1fineTune);
+            pitchEnvelope1.getInput(1).write(1);
 
-        pitchEnvelope1.getInput(0).write(key1ZeroFreq ? 0 : (frequency * OCTAVE_RATIOS[octaveOffset1] * oscillator1fineTune));
-        pitchEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
+            oscillatorEnvelope1.getInput(1).write(1);
 
-        oscillatorEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
+            filterEnvelope1.getInput(1).write(1);
+        } else {
+            pitchEnvelope1.getInput(0).write(0);
+            pitchEnvelope1.getInput(1).write(0);
 
-        filterEnvelope1.getInput(1).write(key1ZeroFreq ? 0 : 1);
+            oscillatorEnvelope1.getInput(1).write(0);
+
+            filterEnvelope1.getInput(1).write(0);
+        }
     }
 
     public synchronized void pressKey2(double frequency) {
-        key2ZeroFreq = (frequency == 0);
+        if (frequency > 0) {
+            pitchEnvelope2.getInput(0).write(frequency * OCTAVE_RATIOS[octaveOffset2] * oscillator2fineTune);
+            pitchEnvelope2.getInput(1).write(1);
 
-        pitchEnvelope2.getInput(0).write(key2ZeroFreq ? 0 : (frequency * OCTAVE_RATIOS[octaveOffset2] * oscillator2fineTune));
-        pitchEnvelope2.getInput(1).write(key2ZeroFreq ? 0 : 1);
+            oscillatorEnvelope2.getInput(1).write(1);
 
-        oscillatorEnvelope2.getInput(1).write(key2ZeroFreq ? 0 : 1);
+            filterEnvelope2.getInput(1).write(1);
+        } else {
+            pitchEnvelope2.getInput(0).write(0);
+            pitchEnvelope2.getInput(1).write(0);
 
-        filterEnvelope2.getInput(1).write(key2ZeroFreq ? 0 : 1);
+            oscillatorEnvelope2.getInput(1).write(0);
+
+            filterEnvelope2.getInput(1).write(0);
+        }
     }
 
     public Instrument getInstrument() {

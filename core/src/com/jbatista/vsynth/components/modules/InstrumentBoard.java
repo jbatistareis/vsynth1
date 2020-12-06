@@ -214,10 +214,11 @@ public class InstrumentBoard {
         this.onlyModulateOscillator2 = value;
 
         if (this.onlyModulateOscillator2) {
-            oscillatorFmMixer1.getInput(0).disconnectPatch();
-            oscillatorFmMixer1.getInput(0).write(0);
+            oscillator1.getInput(1).disconnectPatch();
+            oscillator3.getInput(1).disconnectPatch();
         } else {
-            oscillatorFmMixer1.getInput(0).connectPatch(patches[1]);
+            oscillator1.getInput(1).connectPatch(patches[5]);
+            oscillator3.getInput(1).connectPatch(patches[6]);
         }
     }
 
@@ -260,6 +261,25 @@ public class InstrumentBoard {
 
         lowPassFilter1.getInput(1).write(this.filterModulationWheel);
         lowPassFilter2.getInput(1).write(this.filterModulationWheel);
+    }
+
+    public double getOscillatorModStr() {
+        return oscillator1.getController(3).getValue();
+    }
+
+    public void setOscillatorModStr(double value) {
+        oscillator1.getController(3).setValue(value);
+        oscillator2.getController(3).setValue(value);
+        oscillator3.getController(3).setValue(value);
+    }
+
+    public double getFilterModStr() {
+        return lowPassFilter1.getController(2).getValue();
+    }
+
+    public void setFilterModStr(double value) {
+        lowPassFilter1.getController(2).setValue(value);
+        lowPassFilter2.getController(2).setValue(value);
     }
     //</editor-fold>
 

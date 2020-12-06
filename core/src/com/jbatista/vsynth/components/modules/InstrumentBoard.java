@@ -212,6 +212,13 @@ public class InstrumentBoard {
 
     public void onlyModulateOscillator2(boolean value) {
         this.onlyModulateOscillator2 = value;
+
+        if (this.onlyModulateOscillator2) {
+            oscillatorFmMixer1.getInput(0).disconnectPatch();
+            oscillatorFmMixer1.getInput(0).write(0);
+        } else {
+            oscillatorFmMixer1.getInput(0).connectPatch(patches[1]);
+        }
     }
 
     public boolean isOnlyModulateOscillator2() {
@@ -491,6 +498,16 @@ public class InstrumentBoard {
     // 0 ~ 1
     public void setNoiseVolume(double noiseVolume) {
         noise.getController(4).setValue(noiseVolume);
+    }
+
+    public double getGlobalVolume() {
+        return mainMixer.getController(0).getValue();
+    }
+
+    // 0 ~ 1
+    public void setGlobalVolume(double globalVolume) {
+        mainMixer.getController(0).setValue(globalVolume);
+        mainMixer.getController(1).setValue(globalVolume);
     }
     //</editor-fold>
 

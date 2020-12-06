@@ -70,23 +70,47 @@ public class EnvelopesPanel extends VisWindow {
         grpPitLvl.addActor(pitSusLvl);
         grpPitLvl.addActor(pitRelLvl);
 
+
+        grpOscSpd.space(5);
+        grpOscSpd.addActor(oscAtkSpd);
+        grpOscSpd.addActor(oscDecSpd);
+        grpOscSpd.addActor(oscSusSpd);
+        grpOscSpd.addActor(oscRelSpd);
+
+        grpFilSpd.space(5);
+        grpFilSpd.addActor(filAtkSpd);
+        grpFilSpd.addActor(filDecSpd);
+        grpFilSpd.addActor(filSusSpd);
+        grpFilSpd.addActor(filRelSpd);
+
+        grpPitSpd.space(5);
+        grpPitSpd.addActor(pitAtkSpd);
+        grpPitSpd.addActor(pitDecSpd);
+        grpPitSpd.addActor(pitSusSpd);
+        grpPitSpd.addActor(pitRelSpd);
+        
+        
         add("Oscillators").colspan(3).row();
         add(grpOscLvl);
         add(new Separator()).padLeft(5).padRight(5).fillY();
         add(grpOscSpd).row();
-        add(new Separator()).fillX().row();
+        add(new Separator()).colspan(3).fillX().row();
 
         add("Filter").colspan(3).row();
         add(grpFilLvl);
         add(new Separator()).padLeft(5).padRight(5).fillY();
         add(grpFilSpd).row();
-        add(new Separator()).fillX().row();
+        add(new Separator()).colspan(3).fillX().row();
 
         add("Pitch").colspan(3).row();
         add(grpPitLvl);
         add(new Separator()).padLeft(5).padRight(5).fillY();
         add(grpPitSpd).row();
-        add(new Separator()).fillX().row();
+        add(new Separator()).colspan(3).fillX().row();
+
+        add("Level");
+        add();
+        add("Speed").row();
     }
 
 }

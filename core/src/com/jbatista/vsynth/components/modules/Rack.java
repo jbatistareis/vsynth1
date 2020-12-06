@@ -55,10 +55,9 @@ public class Rack extends VisTable {
         add(modulationPanel).expand();
         add(oscillatorsPanel).expand();
         add(filterPanel).expand();
-        add(envelopesPanel).expand().row();
-
-        add(mixerPanel).colspan(2).expand();
-        add(outputPanel).colspan(2).expand().row();
+        add(envelopesPanel).expand();
+        add(mixerPanel).expand();
+        add(outputPanel).expand().row();
 
         keyboardArea.space(4);
         keyboardArea.addActor(pitchPanel);

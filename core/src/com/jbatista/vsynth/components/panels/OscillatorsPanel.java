@@ -72,7 +72,7 @@ public class OscillatorsPanel extends VisWindow {
         sldOsc1FineTune.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                instrumentBoard.setOscillator1fineTune(sldOsc1FineTune.getValue() + 2);
+                instrumentBoard.setOscillator1fineTune(sldOsc1FineTune.getValue());
             }
         });
         sldOctave1.addListener(new ChangeListener() {

@@ -383,132 +383,76 @@ public class InstrumentBoard {
     //</editor-fold>
 
     //<editor-fold desc="pitch envelope" defaultstate="collapsed">
-    public void setPitchAttackLevel1(double pitchAttackLevel) {
+    public void setPitchAttackLevel(double pitchAttackLevel) {
         pitchEnvelope1.getController(0).setValue(pitchAttackLevel);
-    }
-
-    public double getPitchAttackLevel1() {
-        return pitchEnvelope1.getController(0).getValue();
-    }
-
-    public void setPitchDecayLevel1(double pitchDecayLevel) {
-        pitchEnvelope1.getController(1).setValue(pitchDecayLevel);
-    }
-
-    public double getPitchDecayLevel1() {
-        return pitchEnvelope1.getController(1).getValue();
-    }
-
-    public void setPitchSustainLevel1(double pitchSustainLevel) {
-        pitchEnvelope1.getController(2).setValue(pitchSustainLevel);
-    }
-
-    public double getPitchSustainLevel1() {
-        return pitchEnvelope1.getController(2).getValue();
-    }
-
-    public void setPitchReleaseLevel1(double pitchReleaseLevel) {
-        pitchEnvelope1.getController(3).setValue(pitchReleaseLevel);
-    }
-
-    public double getPitchReleaseLevel1() {
-        return pitchEnvelope1.getController(3).getValue();
-    }
-
-    public void setPitchAttackSpeed1(double pitchAttackSpeed) {
-        pitchEnvelope1.getController(4).setValue(pitchAttackSpeed);
-    }
-
-    public double getPitchAttackSpeed1() {
-        return pitchEnvelope1.getController(4).getValue();
-    }
-
-    public void setPitchDecaySpeed1(double pitchDecaySpeed) {
-        pitchEnvelope1.getController(5).setValue(pitchDecaySpeed);
-    }
-
-    public double getPitchDecaySpeed1() {
-        return pitchEnvelope1.getController(5).getValue();
-    }
-
-    public void setPitchSustainSpeed1(double pitchSustainSpeed) {
-        pitchEnvelope1.getController(6).setValue(pitchSustainSpeed);
-    }
-
-    public double getPitchSustainSpeed1() {
-        return pitchEnvelope1.getController(6).getValue();
-    }
-
-    public void setPitchReleaseSpeed1(double pitchReleaseSpeed) {
-        pitchEnvelope1.getController(7).setValue(pitchReleaseSpeed);
-    }
-
-    public double getPitchReleaseSpeed1() {
-        return pitchEnvelope1.getController(7).getValue();
-    }
-
-    public void setPitchAttackLevel2(double pitchAttackLevel) {
         pitchEnvelope2.getController(0).setValue(pitchAttackLevel);
     }
 
-    public double getPitchAttackLevel2() {
-        return pitchEnvelope2.getController(0).getValue();
+    public double getPitchAttackLevel() {
+        return pitchEnvelope1.getController(0).getValue();
     }
 
-    public void setPitchDecayLevel2(double pitchDecayLevel) {
+    public void setPitchDecayLevel(double pitchDecayLevel) {
+        pitchEnvelope1.getController(1).setValue(pitchDecayLevel);
         pitchEnvelope2.getController(1).setValue(pitchDecayLevel);
     }
 
-    public double getPitchDecayLevel2() {
-        return pitchEnvelope2.getController(1).getValue();
+    public double getPitchDecayLevel() {
+        return pitchEnvelope1.getController(1).getValue();
     }
 
-    public void setPitchSustainLevel2(double pitchSustainLevel) {
+    public void setPitchSustainLevel(double pitchSustainLevel) {
+        pitchEnvelope1.getController(2).setValue(pitchSustainLevel);
         pitchEnvelope2.getController(2).setValue(pitchSustainLevel);
     }
 
-    public double getPitchSustainLevel2() {
-        return pitchEnvelope2.getController(2).getValue();
+    public double getPitchSustainLevel() {
+        return pitchEnvelope1.getController(2).getValue();
     }
 
-    public void setPitchReleaseLevel2(double pitchReleaseLevel) {
+    public void setPitchReleaseLevel(double pitchReleaseLevel) {
+        pitchEnvelope1.getController(3).setValue(pitchReleaseLevel);
         pitchEnvelope2.getController(3).setValue(pitchReleaseLevel);
     }
 
-    public double getPitchReleaseLevel2() {
-        return pitchEnvelope2.getController(3).getValue();
+    public double getPitchReleaseLevel() {
+        return pitchEnvelope1.getController(3).getValue();
     }
 
-    public void setPitchAttackSpeed2(double pitchAttackSpeed) {
+    public void setPitchAttackSpeed(double pitchAttackSpeed) {
+        pitchEnvelope1.getController(4).setValue(pitchAttackSpeed);
         pitchEnvelope2.getController(4).setValue(pitchAttackSpeed);
     }
 
-    public double getPitchAttackSpeed2() {
-        return pitchEnvelope2.getController(4).getValue();
+    public double getPitchAttackSpeed() {
+        return pitchEnvelope1.getController(4).getValue();
     }
 
-    public void setPitchDecaySpeed2(double pitchDecaySpeed) {
+    public void setPitchDecaySpeed(double pitchDecaySpeed) {
+        pitchEnvelope1.getController(5).setValue(pitchDecaySpeed);
         pitchEnvelope2.getController(5).setValue(pitchDecaySpeed);
     }
 
-    public double getPitchDecaySpeed2() {
-        return pitchEnvelope2.getController(5).getValue();
+    public double getPitchDecaySpeed() {
+        return pitchEnvelope1.getController(5).getValue();
     }
 
-    public void setPitchSustainSpeed2(double pitchSustainSpeed) {
+    public void setPitchSustainSpeed(double pitchSustainSpeed) {
+        pitchEnvelope1.getController(6).setValue(pitchSustainSpeed);
         pitchEnvelope2.getController(6).setValue(pitchSustainSpeed);
     }
 
-    public double getPitchSustainSpeed2() {
-        return pitchEnvelope2.getController(6).getValue();
+    public double getPitchSustainSpeed() {
+        return pitchEnvelope1.getController(6).getValue();
     }
 
-    public void setPitchReleaseSpeed2(double pitchReleaseSpeed) {
+    public void setPitchReleaseSpeed(double pitchReleaseSpeed) {
+        pitchEnvelope1.getController(7).setValue(pitchReleaseSpeed);
         pitchEnvelope2.getController(7).setValue(pitchReleaseSpeed);
     }
 
-    public double getPitchReleaseSpeed2() {
-        return pitchEnvelope2.getController(7).getValue();
+    public double getPitchReleaseSpeed() {
+        return pitchEnvelope1.getController(7).getValue();
     }
     //</editor-fold>
 

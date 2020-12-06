@@ -1,6 +1,8 @@
 package com.jbatista.vsynth.components.panels;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.Separator;
 import com.kotcrab.vis.ui.widget.VisSlider;
@@ -88,8 +90,8 @@ public class EnvelopesPanel extends VisWindow {
         grpPitSpd.addActor(pitDecSpd);
         grpPitSpd.addActor(pitSusSpd);
         grpPitSpd.addActor(pitRelSpd);
-        
-        
+
+
         add("Oscillators").colspan(3).row();
         add(grpOscLvl);
         add(new Separator()).padLeft(5).padRight(5).fillY();
@@ -111,6 +113,116 @@ public class EnvelopesPanel extends VisWindow {
         add("Level");
         add();
         add("Speed").row();
+
+
+        oscAtkLvl.setValue((float) instrumentBoard.getOscillatorAttackLevel());
+        oscDecLvl.setValue((float) instrumentBoard.getOscillatorDecayLevel());
+        oscSusLvl.setValue((float) instrumentBoard.getOscillatorSustainLevel());
+        oscRelLvl.setValue((float) instrumentBoard.getOscillatorReleaseLevel());
+
+        filAtkLvl.setValue((float) instrumentBoard.getFilterAttackLevel());
+        filDecLvl.setValue((float) instrumentBoard.getFilterDecayLevel());
+        filSusLvl.setValue((float) instrumentBoard.getFilterSustainLevel());
+        filRelLvl.setValue((float) instrumentBoard.getFilterReleaseLevel());
+
+        pitAtkLvl.setValue((float) instrumentBoard.getPitchAttackLevel());
+        pitDecLvl.setValue((float) instrumentBoard.getPitchDecayLevel());
+        pitSusLvl.setValue((float) instrumentBoard.getPitchSustainLevel());
+        pitRelLvl.setValue((float) instrumentBoard.getPitchReleaseLevel());
+
+
+        oscAtkSpd.setValue((float) instrumentBoard.getOscillatorAttackSpeed());
+        oscDecSpd.setValue((float) instrumentBoard.getOscillatorDecaySpeed());
+        oscSusSpd.setValue((float) instrumentBoard.getOscillatorSustainSpeed());
+        oscRelSpd.setValue((float) instrumentBoard.getOscillatorReleaseSpeed());
+
+        filAtkSpd.setValue((float) instrumentBoard.getFilterAttackSpeed());
+        filDecSpd.setValue((float) instrumentBoard.getFilterDecaySpeed());
+        filSusSpd.setValue((float) instrumentBoard.getFilterSustainSpeed());
+        filRelSpd.setValue((float) instrumentBoard.getFilterReleaseSpeed());
+
+        pitAtkSpd.setValue((float) instrumentBoard.getPitchAttackSpeed());
+        pitDecSpd.setValue((float) instrumentBoard.getPitchDecaySpeed());
+        pitSusSpd.setValue((float) instrumentBoard.getPitchSustainSpeed());
+        pitRelSpd.setValue((float) instrumentBoard.getPitchReleaseSpeed());
+
+
+        oscAtkLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setOscillatorAttackLevel(oscAtkLvl.getValue());
+            }
+        });
+        oscDecLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setOscillatorDecayLevel(oscDecLvl.getValue());
+            }
+        });
+        oscSusLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setOscillatorSustainLevel(oscSusLvl.getValue());
+            }
+        });
+        oscRelLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setOscillatorReleaseLevel(oscRelLvl.getValue());
+            }
+        });
+
+
+        filAtkLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterAttackLevel(filAtkLvl.getValue());
+            }
+        });
+        filDecLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterDecayLevel(filDecLvl.getValue());
+            }
+        });
+        filSusLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterSustainLevel(filSusLvl.getValue());
+            }
+        });
+        filRelLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterReleaseLevel(filRelLvl.getValue());
+            }
+        });
+
+
+        pitAtkLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setPitchAttackLevel(pitAtkLvl.getValue());
+            }
+        });
+        pitDecLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setPitchDecayLevel(pitDecLvl.getValue());
+            }
+        });
+        pitSusLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setPitchSustainLevel(pitSusLvl.getValue());
+            }
+        });
+        pitRelLvl.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setPitchReleaseLevel(pitRelLvl.getValue());
+            }
+        });
     }
 
 }

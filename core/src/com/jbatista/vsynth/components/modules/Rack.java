@@ -22,7 +22,6 @@ public class Rack extends VisTable {
     private final MixerPanel mixerPanel;
     private final ModulationPanel modulationPanel;
     private final OscillatorsPanel oscillatorsPanel;
-    private final OutputPanel outputPanel;
     private final PitchPanel pitchPanel;
 
     private final HorizontalGroup keyboardArea = new HorizontalGroup();
@@ -46,7 +45,6 @@ public class Rack extends VisTable {
         mixerPanel = new MixerPanel(this.instrumentBoard);
         modulationPanel = new ModulationPanel(this.instrumentBoard);
         oscillatorsPanel = new OscillatorsPanel(this.instrumentBoard);
-        outputPanel = new OutputPanel(this.instrumentBoard);
         pitchPanel = new PitchPanel(this.instrumentBoard);
 
         this.instrumentBoard.getSoundOutput().connectPatch(patch);
@@ -56,14 +54,13 @@ public class Rack extends VisTable {
         add(oscillatorsPanel).expand();
         add(filterPanel).expand();
         add(envelopesPanel).expand();
-        add(mixerPanel).expand();
-        add(outputPanel).expand().row();
+        add(mixerPanel).expand().row();
 
-        keyboardArea.space(4);
+        keyboardArea.space(5);
         keyboardArea.addActor(pitchPanel);
         keyboardArea.addActor(keyboardPanel);
         keyboardArea.expand();
-        add(keyboardArea).colspan(4).expand().row();
+        add(keyboardArea).colspan(5).expand().row();
 
         pressKey(KeyboardNote.A_4);
     }

@@ -92,28 +92,33 @@ public class EnvelopesPanel extends VisWindow {
         grpPitSpd.addActor(pitRelSpd);
 
 
-        add("Oscillators").colspan(3).row();
+        add("Oscillators").colspan(3).padRight(20);
+        add("Filter").colspan(3).padRight(20);
+        add("Pitch").colspan(3).row();
+
         add(grpOscLvl);
         add(new Separator()).padLeft(5).padRight(5).fillY();
-        add(grpOscSpd).row();
-        add(new Separator()).colspan(3).fillX().row();
+        add(grpOscSpd).padRight(20);
 
-        add("Filter").colspan(3).row();
         add(grpFilLvl);
         add(new Separator()).padLeft(5).padRight(5).fillY();
-        add(grpFilSpd).row();
-        add(new Separator()).colspan(3).fillX().row();
+        add(grpFilSpd).padRight(20);
 
-        add("Pitch").colspan(3).row();
         add(grpPitLvl);
         add(new Separator()).padLeft(5).padRight(5).fillY();
         add(grpPitSpd).row();
-        add(new Separator()).colspan(3).fillX().row();
 
         add("Level");
-        add();
-        add("Speed").row();
+        add(new Separator());
+        add("Speed").padRight(20);
 
+        add("Level");
+        add(new Separator());
+        add("Speed").padRight(20);
+
+        add("Level");
+        add(new Separator());
+        add("Speed").row();
 
         oscAtkLvl.setValue((float) instrumentBoard.getOscillatorAttackLevel());
         oscDecLvl.setValue((float) instrumentBoard.getOscillatorDecayLevel());

@@ -1,9 +1,7 @@
 package com.jbatista.vsynth.components.modules;
 
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.jbatista.bricks.KeyboardNote;
 import com.jbatista.bricks.components.Patch;
-import com.jbatista.bricks.components.builtin.Keyboard;
 import com.jbatista.bricks.components.builtin.SoundOut;
 import com.jbatista.vsynth.components.panels.*;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -13,7 +11,6 @@ public class Rack extends VisTable {
     public enum Mode {MONO, POLY}
 
     private final InstrumentBoard instrumentBoard;
-    private final Keyboard keyboard;
     private final SoundOut soundOut;
 
     private final EnvelopesPanel envelopesPanel;
@@ -36,7 +33,6 @@ public class Rack extends VisTable {
         this.instrumentBoard = instrumentBoard;
         setFillParent(true);
 
-        keyboard = new Keyboard(this.instrumentBoard.getInstrument());
         soundOut = new SoundOut(this.instrumentBoard.getInstrument());
 
         envelopesPanel = new EnvelopesPanel(this.instrumentBoard);
@@ -61,13 +57,11 @@ public class Rack extends VisTable {
         keyboardArea.addActor(keyboardPanel);
         keyboardArea.expand();
         add(keyboardArea).colspan(5).expand().row();
-
-        pressKey(KeyboardNote.A_4);
     }
 
     public void getFrame(float[] buffer, int size) {
-        instrumentBoard.pressKey1(keyboard.getOutput(0).read());
-        instrumentBoard.pressKey2(keyboard.getOutput(mode.equals(Mode.MONO) ? 0 : 1).read());
+        instrumentBoard.pressKey1(keyboardPanel.getKeyboard().getOutput(0).read());
+        instrumentBoard.pressKey2(keyboardPanel.getKeyboard().getOutput(mode.equals(Mode.MONO) ? 0 : 1).read());
 
         for (bufferIndex = 0; bufferIndex < size; bufferIndex += 2) {
             instrumentBoard.runInstrumentProcess();
@@ -76,14 +70,6 @@ public class Rack extends VisTable {
             buffer[bufferIndex] = (float) frame[0];
             buffer[bufferIndex + 1] = (float) frame[1];
         }
-    }
-
-    public void pressKey(KeyboardNote keyboardNote) {
-        keyboard.pressKey(keyboardNote);
-    }
-
-    public void releaseKey(KeyboardNote keyboardNote) {
-        keyboard.pressKey(keyboardNote);
     }
 
     public Mode getMode() {
@@ -95,11 +81,11 @@ public class Rack extends VisTable {
 
         switch (this.mode) {
             case MONO:
-                keyboard.getController(0).setValue(1);
+                keyboardPanel.getKeyboard().getController(0).setValue(1);
                 break;
 
             case POLY:
-                keyboard.getController(0).setValue(2);
+                keyboardPanel.getKeyboard().getController(0).setValue(2);
                 break;
         }
     }

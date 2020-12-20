@@ -228,6 +228,84 @@ public class EnvelopesPanel extends VisWindow {
                 instrumentBoard.setPitchReleaseLevel(pitRelLvl.getValue());
             }
         });
+
+
+        oscAtkSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setOscillatorAttackSpeed(oscAtkSpd.getValue());
+            }
+        });
+        oscDecSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setOscillatorDecaySpeed(oscDecSpd.getValue());
+            }
+        });
+        oscSusSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setOscillatorSustainSpeed(oscSusSpd.getValue());
+            }
+        });
+        oscRelSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setOscillatorReleaseSpeed(oscRelSpd.getValue());
+            }
+        });
+
+
+        filAtkSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterAttackSpeed(filAtkSpd.getValue());
+            }
+        });
+        filDecSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterDecaySpeed(filDecSpd.getValue());
+            }
+        });
+        filSusSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterSustainSpeed(filSusSpd.getValue());
+            }
+        });
+        filRelSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterReleaseSpeed(filRelSpd.getValue());
+            }
+        });
+
+
+        pitAtkSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setPitchAttackSpeed(pitAtkSpd.getValue());
+            }
+        });
+        pitDecSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setPitchDecaySpeed(pitDecSpd.getValue());
+            }
+        });
+        pitSusSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setPitchSustainSpeed(pitSusSpd.getValue());
+            }
+        });
+        pitRelSpd.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setPitchReleaseSpeed(pitRelSpd.getValue());
+            }
+        });
     }
 
 }

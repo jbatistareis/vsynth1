@@ -1,5 +1,6 @@
 package com.jbatista.vsynth.components.modules;
 
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.jbatista.bricks.components.Patch;
 import com.jbatista.bricks.components.builtin.SoundOut;
@@ -20,6 +21,7 @@ public class Rack extends VisTable {
     private final ModulationPanel modulationPanel;
     private final OscillatorsPanel oscillatorsPanel;
     private final PitchPanel pitchPanel;
+    private final KeyboardInputProcessor keyboardInputProcessor;
 
     private final HorizontalGroup keyboardArea = new HorizontalGroup();
 
@@ -42,6 +44,7 @@ public class Rack extends VisTable {
         modulationPanel = new ModulationPanel(this.instrumentBoard);
         oscillatorsPanel = new OscillatorsPanel(this.instrumentBoard);
         pitchPanel = new PitchPanel(this.instrumentBoard);
+        keyboardInputProcessor = new KeyboardInputProcessor(keyboardPanel);
 
         this.instrumentBoard.getSoundOutput().connectPatch(patch);
         soundOut.getInput(0).connectPatch(patch);
@@ -88,6 +91,10 @@ public class Rack extends VisTable {
                 keyboardPanel.getKeyboard().getController(0).setValue(2);
                 break;
         }
+    }
+
+    public InputProcessor getInputProcessor() {
+        return keyboardInputProcessor;
     }
 
 }

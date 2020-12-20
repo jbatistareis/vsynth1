@@ -24,7 +24,7 @@ public class KeyboardPanel extends VisWindow {
     private final Keyboard keyboard;
 
     private int currentOctave;
-    private int keyOffset = 48;
+    private int keyOffset = 49;
     private final KeyboardNote[] notes = new KeyboardNote[61];
 
     private final List<Image> keys = new LinkedList<>();

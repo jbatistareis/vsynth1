@@ -40,7 +40,7 @@ public class Main extends ApplicationAdapter {
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
-        // multiplexer.addProcessor(instrumentActor.getKeyboardInputProcessor());
+        multiplexer.addProcessor(rack.getInputProcessor());
         Gdx.input.setInputProcessor(multiplexer);
 
         stage.addActor(rack);

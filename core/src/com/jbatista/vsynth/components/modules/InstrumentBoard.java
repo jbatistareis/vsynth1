@@ -161,7 +161,6 @@ public class InstrumentBoard {
 
             filterEnvelope1.getInput(1).write(1);
         } else {
-            pitchEnvelope1.getInput(0).write(0);
             pitchEnvelope1.getInput(1).write(0);
 
             oscillatorEnvelope1.getInput(1).write(0);
@@ -179,7 +178,6 @@ public class InstrumentBoard {
 
             filterEnvelope2.getInput(1).write(1);
         } else {
-            pitchEnvelope2.getInput(0).write(0);
             pitchEnvelope2.getInput(1).write(0);
 
             oscillatorEnvelope2.getInput(1).write(0);

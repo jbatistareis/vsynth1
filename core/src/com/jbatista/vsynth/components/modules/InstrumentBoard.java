@@ -99,7 +99,7 @@ public class InstrumentBoard {
 
         oscillatorMixer1.getController(0).setValue(0.05);
         oscillatorMixer1.getController(1).setValue(0.05);
-        oscillatorMixer1.getController(2).setValue(0.05);
+        oscillatorMixer1.getController(2).setValue(0.005);
         oscillatorMixer1.getInput(0).connectPatch(patches[8]);
         oscillatorMixer1.getInput(1).connectPatch(patches[9]);
         oscillatorMixer1.getInput(2).connectPatch(patches[10]);
@@ -109,7 +109,7 @@ public class InstrumentBoard {
         noisePassthrough.getOutput(1).connectPatch(patches[12]);
 
         oscillatorMixer2.getController(0).setValue(0.05);
-        oscillatorMixer2.getController(1).setValue(0.05);
+        oscillatorMixer2.getController(1).setValue(0.005);
         oscillatorMixer2.getInput(0).connectPatch(patches[11]);
         oscillatorMixer2.getInput(1).connectPatch(patches[12]);
 

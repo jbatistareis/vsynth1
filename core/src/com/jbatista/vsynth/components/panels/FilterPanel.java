@@ -3,6 +3,7 @@ package com.jbatista.vsynth.components.panels;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jbatista.vsynth.components.modules.InstrumentBoard;
+import com.kotcrab.vis.ui.widget.VisCheckBox;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisWindow;
@@ -17,8 +18,10 @@ public class FilterPanel extends VisWindow {
     private final VisLabel lblRes = new VisLabel("Resonance");
     private final VisSlider sldRes = new VisSlider(0, 1, 0.01f, false);
 
+    private final VisCheckBox chkFilClose = new VisCheckBox("Mod. closes");
+
     public FilterPanel(InstrumentBoard instrumentBoard) {
-        super("Filter");
+        super("Filter", false);
         setMovable(false);
         this.instrumentBoard = instrumentBoard;
 
@@ -27,10 +30,12 @@ public class FilterPanel extends VisWindow {
         add(sldCutoff).row();
         add(lblRes).row();
         add(sldRes).row();
+        add(chkFilClose).row();
 
         // functions
         sldCutoff.setValue((float) instrumentBoard.getFilterCutoff());
         sldRes.setValue((float) instrumentBoard.getFilterRessonance());
+        chkFilClose.setChecked(instrumentBoard.isFilterClosing());
 
         sldCutoff.addListener(new ChangeListener() {
             @Override
@@ -43,6 +48,13 @@ public class FilterPanel extends VisWindow {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 instrumentBoard.setFilterResonance(sldRes.getValue());
+            }
+        });
+
+        chkFilClose.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent changeEvent, Actor actor) {
+                instrumentBoard.setFilterClosing(chkFilClose.isChecked());
             }
         });
     }

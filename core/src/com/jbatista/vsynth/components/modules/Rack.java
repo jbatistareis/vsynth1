@@ -1,10 +1,10 @@
 package com.jbatista.vsynth.components.modules;
 
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.jbatista.bricks.components.Patch;
 import com.jbatista.bricks.components.builtin.SoundOut;
 import com.jbatista.vsynth.components.panels.*;
+import com.kotcrab.vis.ui.widget.Separator;
 import com.kotcrab.vis.ui.widget.VisTable;
 
 public class Rack extends VisTable {
@@ -21,8 +21,6 @@ public class Rack extends VisTable {
     private final ModulationPanel modulationPanel;
     private final OscillatorsPanel oscillatorsPanel;
     private final KeyboardInputProcessor keyboardInputProcessor;
-
-    private final HorizontalGroup keyboardArea = new HorizontalGroup();
 
     private final Patch patch = new Patch();
     private final double[] frame = new double[2];
@@ -47,13 +45,18 @@ public class Rack extends VisTable {
         this.instrumentBoard.getSoundOutput().connectPatch(patch);
         soundOut.getInput(0).connectPatch(patch);
 
-        add(modulationPanel).expand();
-        add(oscillatorsPanel).expand();
-        add(filterPanel).expand();
-        add(envelopesPanel).expand();
-        add(mixerPanel).expand().row();
+        add(modulationPanel).fillX();
+        add(new Separator()).padLeft(5).padRight(5).fillY();
+        add(oscillatorsPanel).fillX();
+        add(new Separator()).padLeft(5).padRight(5).fillY();
+        add(filterPanel).fillX();
+        add(new Separator()).padLeft(5).padRight(5).fillY();
+        add(envelopesPanel).fillX();
+        add(new Separator()).padLeft(5).padRight(5).fillY();
+        add(mixerPanel).fillX().row();
 
-        add(keyboardPanel).colspan(5).expand().row();
+        add(new Separator()).colspan(9).fillX().row();
+        add(keyboardPanel).colspan(9).row();
     }
 
     public void getFrame(float[] buffer, int size) {

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.jbatista.vsynth.components.modules.Rack;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.VisWindow;
 
 public class Main extends ApplicationAdapter {
 
@@ -26,6 +27,8 @@ public class Main extends ApplicationAdapter {
     private InstrumentBoard instrumentBoard;
     private Rack rack;
 
+    private VisWindow background;
+
     @Override
     public void create() {
         VisUI.load();
@@ -33,16 +36,20 @@ public class Main extends ApplicationAdapter {
         audioDevice = Gdx.audio.newAudioDevice(44100, false);
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        stage = new Stage(new FitViewport(1280, 720, camera));
+        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
 
         instrumentBoard = new InstrumentBoard();
         rack = new Rack(instrumentBoard);
+
+        background = new VisWindow("", false);
+        background.setFillParent(true);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(rack.getInputProcessor());
         Gdx.input.setInputProcessor(multiplexer);
 
+        stage.addActor(background);
         stage.addActor(rack);
 
         audioThread.start();
@@ -62,6 +69,16 @@ public class Main extends ApplicationAdapter {
 
         VisUI.dispose();
         stage.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+
+        stage.getViewport().setScreenSize(width, height);
     }
 
     private void processAudio() {

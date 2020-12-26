@@ -31,7 +31,7 @@ public class OscillatorsPanel extends VisWindow {
     private final VisSlider sldOsc2Shape = new VisSlider(0, 4, 1, false);
 
     public OscillatorsPanel(InstrumentBoard instrumentBoard) {
-        super("Oscillators");
+        super("Oscillators", false);
         setMovable(false);
         this.instrumentBoard = instrumentBoard;
 

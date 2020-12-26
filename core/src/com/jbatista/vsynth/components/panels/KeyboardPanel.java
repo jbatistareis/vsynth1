@@ -43,7 +43,7 @@ public class KeyboardPanel extends VisWindow {
     private boolean clicked = false;
 
     public KeyboardPanel(InstrumentBoard instrumentBoard) {
-        super("Keyboard");
+        super("Keyboard", false);
         setMovable(false);
         this.instrumentBoard = instrumentBoard;
         this.keyboard = new Keyboard(this.instrumentBoard.getInstrument());

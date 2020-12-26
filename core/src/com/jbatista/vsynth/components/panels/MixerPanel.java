@@ -17,7 +17,7 @@ public class MixerPanel extends VisWindow {
     private final VisSlider sldGlobal = new VisSlider(0, 1, 0.01f, false);
 
     public MixerPanel(InstrumentBoard instrumentBoard) {
-        super("Mixer");
+        super("Mixer", false);
         setMovable(false);
         this.instrumentBoard = instrumentBoard;
 

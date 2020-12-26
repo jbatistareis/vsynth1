@@ -16,10 +16,10 @@ public class ModulationPanel extends VisWindow {
     private final VisSlider sldLfoShape = new VisSlider(0, 4, 1, false);
     private final VisCheckBox chkLfoModOsc2 = new VisCheckBox("Mod. only OSC 2");
     private final VisSlider sldOscillatorStr = new VisSlider(0, 1, 0.01f, false);
-    private final VisCheckBox chkFilClose = new VisCheckBox("Filter closes");
+
 
     public ModulationPanel(InstrumentBoard instrumentBoard) {
-        super("Modulation");
+        super("Modulation", false);
         setMovable(false);
         this.instrumentBoard = instrumentBoard;
 
@@ -32,14 +32,12 @@ public class ModulationPanel extends VisWindow {
         add(new Separator()).fillX().row();
         add("OSC mod str").row();
         add(sldOscillatorStr).row();
-        add(chkFilClose).row();
 
         // functions
         sldLfoFreq.setValue((float) instrumentBoard.getLfoValue());
         sldLfoShape.setValue(instrumentBoard.getLfoShape());
         chkLfoModOsc2.setChecked(instrumentBoard.isOnlyModulateOscillator2());
         sldOscillatorStr.setValue((float) instrumentBoard.getOscillatorModStr());
-        chkFilClose.setChecked(instrumentBoard.isFilterClosing());
 
         sldLfoFreq.addListener(new ChangeListener() {
             @Override
@@ -66,13 +64,6 @@ public class ModulationPanel extends VisWindow {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
                 instrumentBoard.setOscillatorModStr(sldOscillatorStr.getValue());
-            }
-        });
-
-        chkFilClose.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent changeEvent, Actor actor) {
-                instrumentBoard.setFilterClosing(chkFilClose.isChecked());
             }
         });
     }

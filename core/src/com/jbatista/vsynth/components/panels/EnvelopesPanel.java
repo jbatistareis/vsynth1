@@ -50,7 +50,7 @@ public class EnvelopesPanel extends VisWindow {
     private final VisSlider pitRelSpd = new VisSlider(0, 1, 0.005f, true);
 
     public EnvelopesPanel(InstrumentBoard instrumentBoard) {
-        super("Envelopes");
+        super("Envelopes", false);
         setMovable(false);
         this.instrumentBoard = instrumentBoard;
 

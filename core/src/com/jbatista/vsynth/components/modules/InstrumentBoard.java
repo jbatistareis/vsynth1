@@ -41,9 +41,6 @@ public class InstrumentBoard {
 
     private final Patch[] patches = new Patch[23];
 
-    private double oscillatorModulationWheel = 0;
-    private double filterModulationWheel = 0;
-
     private int octaveOffset1 = 2;
     private int octaveOffset2 = 2;
     private double oscillator1fineTune = 1;
@@ -235,30 +232,6 @@ public class InstrumentBoard {
 
     public double getLfoFrequency() {
         return lfo.getController(1).getDisplayValue();
-    }
-
-    public double getOscillatorModulationWheel() {
-        return oscillatorModulationWheel;
-    }
-
-    // -1 ~ 1
-    public void setOscillatorModulationWheel(double oscillatorModulationWheel) {
-        this.oscillatorModulationWheel = Math.max(-1, Math.min(oscillatorModulationWheel, 1));
-
-        if (!onlyModulateOscillator2) oscillatorFmMixer1.getInput(1).write(this.oscillatorModulationWheel);
-        oscillatorFmMixer2.getInput(1).write(this.oscillatorModulationWheel);
-    }
-
-    public double getFilterModulationWheel() {
-        return filterModulationWheel;
-    }
-
-    // -1 ~ 1
-    public void setFilterModulationWheel(double filterModulationWheel) {
-        this.filterModulationWheel = Math.max(-1, Math.min(filterModulationWheel, 1));
-
-        lowPassFilter1.getInput(1).write(this.filterModulationWheel);
-        lowPassFilter2.getInput(1).write(this.filterModulationWheel);
     }
 
     public double getOscillatorModStr() {

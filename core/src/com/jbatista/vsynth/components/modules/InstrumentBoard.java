@@ -271,13 +271,15 @@ public class InstrumentBoard {
         oscillator3.getController(3).setValue(value);
     }
 
-    public double getFilterModStr() {
-        return lowPassFilter1.getController(2).getValue();
+    public boolean isFilterClosing() {
+        return lowPassFilter1.getController(2).getValue() == 1;
     }
 
-    public void setFilterModStr(double value) {
-        lowPassFilter1.getController(2).setValue(value);
-        lowPassFilter2.getController(2).setValue(value);
+    public void setFilterClosing(boolean value) {
+        final double result = value ? 1 : 0;
+
+        lowPassFilter1.getController(2).setValue(result);
+        lowPassFilter2.getController(2).setValue(result);
     }
     //</editor-fold>
 

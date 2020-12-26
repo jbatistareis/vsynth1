@@ -104,6 +104,8 @@ public class KeyboardPanel extends VisWindow {
             keys.add(key);
             add(key).pad(0.5f);
         }
+
+        changeOctaveLabel(2);
     }
 
     public Keyboard getKeyboard() {

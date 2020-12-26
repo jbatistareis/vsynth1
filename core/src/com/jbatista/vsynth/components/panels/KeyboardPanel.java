@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jbatista.bricks.KeyboardNote;
-import com.jbatista.bricks.components.builtin.Keyboard;
 import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
@@ -21,7 +20,6 @@ import java.util.List;
 public class KeyboardPanel extends VisWindow {
 
     private final InstrumentBoard instrumentBoard;
-    private final Keyboard keyboard;
 
     private int currentOctave;
     private int keyOffset = 49;
@@ -46,7 +44,6 @@ public class KeyboardPanel extends VisWindow {
         super("Keyboard", false);
         setMovable(false);
         this.instrumentBoard = instrumentBoard;
-        this.keyboard = new Keyboard(this.instrumentBoard.getInstrument());
 
         final KeyboardNote[] allNotes = KeyboardNote.values();
         for (int i = keyOffset; i <= (keyOffset + 60); i++) {
@@ -108,10 +105,6 @@ public class KeyboardPanel extends VisWindow {
         changeOctaveLabel(2);
     }
 
-    public Keyboard getKeyboard() {
-        return keyboard;
-    }
-
     void changeOctaveLabel(int index) {
         String title;
         if (index == 0) {
@@ -152,7 +145,7 @@ public class KeyboardPanel extends VisWindow {
     }
 
     void pressKey(int index) {
-        keyboard.pressKey(notes[index]);
+        instrumentBoard.pressKey(notes[index]);
 
         if (notes[index].toString().contains("#")) {
             keys.get(index).setDrawable(blackPress);
@@ -162,7 +155,7 @@ public class KeyboardPanel extends VisWindow {
     }
 
     void releaseKey(int index) {
-        keyboard.releaseKey(notes[index]);
+        instrumentBoard.releaseKey(notes[index]);
 
         if (notes[index].toString().contains("#")) {
             keys.get(index).setDrawable(blackIdle);

@@ -57,12 +57,11 @@ public class Rack extends VisTable {
 
         add(new Separator()).colspan(9).fillX().row();
         add(keyboardPanel).colspan(9).row();
+
+        setMode(Mode.MONO);
     }
 
     public void getFrame(float[] buffer, int size) {
-        instrumentBoard.pressKey1(keyboardPanel.getKeyboard().getOutput(0).read());
-        instrumentBoard.pressKey2(keyboardPanel.getKeyboard().getOutput(mode.equals(Mode.MONO) ? 0 : 1).read());
-
         for (bufferIndex = 0; bufferIndex < size; bufferIndex += 2) {
             instrumentBoard.runInstrumentProcess();
 
@@ -81,11 +80,11 @@ public class Rack extends VisTable {
 
         switch (this.mode) {
             case MONO:
-                keyboardPanel.getKeyboard().getController(0).setValue(1);
+                instrumentBoard.setMono();
                 break;
 
             case POLY:
-                keyboardPanel.getKeyboard().getController(0).setValue(2);
+                instrumentBoard.setPoly();
                 break;
         }
     }

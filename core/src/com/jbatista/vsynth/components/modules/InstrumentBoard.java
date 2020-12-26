@@ -1,6 +1,7 @@
 package com.jbatista.vsynth.components.modules;
 
 import com.jbatista.bricks.Instrument;
+import com.jbatista.bricks.KeyboardNote;
 import com.jbatista.bricks.components.OutputConnector;
 import com.jbatista.bricks.components.Patch;
 import com.jbatista.bricks.components.builtin.*;
@@ -39,7 +40,11 @@ public class InstrumentBoard {
     private final LowPassFilter lowPassFilter1 = new LowPassFilter(instrument);
     private final LowPassFilter lowPassFilter2 = new LowPassFilter(instrument);
 
-    private final Patch[] patches = new Patch[23];
+    private final Keyboard keyboard = new Keyboard(instrument);
+    private final Passthrough key1Passthrough = new Passthrough(instrument);
+    private final Passthrough key2Passthrough = new Passthrough(instrument);
+
+    private final Patch[] patches = new Patch[33];
 
     private int octaveOffset1 = 2;
     private int octaveOffset2 = 2;
@@ -60,7 +65,7 @@ public class InstrumentBoard {
         oscillator3.getInput(0).connectPatch(patches[0]);
 
         oscillator3.getController(0).setValue(1);
-        oscillator3.getController(2).setValue(0.5);
+        oscillator3.getInput(0).setOutputRatio(0.5);
 
         // lfo interaction
         lfo.getOutput(0).connectPatch(patches[1]);
@@ -147,40 +152,76 @@ public class InstrumentBoard {
 
         oscillator1.getInput(0).connectPatch(patches[21]);
         oscillator2.getInput(0).connectPatch(patches[22]);
+
+        setMono();
     }
 
-    public synchronized void pressKey1(double frequency) {
-        if (frequency > 0) {
-            pitchEnvelope1.getInput(0).write(frequency * OCTAVE_RATIOS[octaveOffset1] * oscillator1fineTune);
-            pitchEnvelope1.getInput(1).write(1);
-
-            oscillatorEnvelope1.getInput(1).write(1);
-
-            filterEnvelope1.getInput(1).write(1);
-        } else {
-            pitchEnvelope1.getInput(1).write(0);
-
-            oscillatorEnvelope1.getInput(1).write(0);
-
-            filterEnvelope1.getInput(1).write(0);
-        }
+    public synchronized void pressKey(KeyboardNote note) {
+        keyboard.pressKey(note);
     }
 
-    public synchronized void pressKey2(double frequency) {
-        if (frequency > 0) {
-            pitchEnvelope2.getInput(0).write(frequency * OCTAVE_RATIOS[octaveOffset2] * oscillator2fineTune);
-            pitchEnvelope2.getInput(1).write(1);
+    public synchronized void releaseKey(KeyboardNote note) {
+        keyboard.releaseKey(note);
+    }
 
-            oscillatorEnvelope2.getInput(1).write(1);
+    public void setMono() {
+        keyboard.getController(0).setValue(0);
 
-            filterEnvelope2.getInput(1).write(1);
-        } else {
-            pitchEnvelope2.getInput(1).write(0);
+        keyboard.getOutput(0).connectPatch(patches[23]);
+        key1Passthrough.getInput(0).connectPatch(patches[23]);
 
-            oscillatorEnvelope2.getInput(1).write(0);
+        // 1st key
+        key1Passthrough.getOutput(0).connectPatch(patches[24]);
+        key1Passthrough.getOutput(1).connectPatch(patches[25]);
+        key1Passthrough.getOutput(2).connectPatch(patches[26]);
+        key1Passthrough.getOutput(3).connectPatch(patches[27]);
 
-            filterEnvelope2.getInput(1).write(0);
-        }
+        pitchEnvelope1.getInput(0).connectPatch(patches[24]);
+        pitchEnvelope1.getInput(1).connectPatch(patches[25]);
+        oscillatorEnvelope1.getInput(1).connectPatch(patches[26]);
+        filterEnvelope1.getInput(1).connectPatch(patches[27]);
+
+        // 2nd key
+        key1Passthrough.getOutput(4).connectPatch(patches[28]);
+        key1Passthrough.getOutput(5).connectPatch(patches[29]);
+        key1Passthrough.getOutput(6).connectPatch(patches[30]);
+        key1Passthrough.getOutput(7).connectPatch(patches[31]);
+
+        pitchEnvelope2.getInput(0).connectPatch(patches[28]);
+        pitchEnvelope2.getInput(1).connectPatch(patches[29]);
+        oscillatorEnvelope2.getInput(1).connectPatch(patches[30]);
+        filterEnvelope2.getInput(1).connectPatch(patches[31]);
+    }
+
+    public void setPoly() {
+        keyboard.getController(0).setValue(2);
+
+        keyboard.getOutput(0).connectPatch(patches[23]);
+        keyboard.getOutput(1).connectPatch(patches[24]);
+        key1Passthrough.getInput(0).connectPatch(patches[23]);
+        key2Passthrough.getInput(0).connectPatch(patches[24]);
+
+        // 1st key
+        key1Passthrough.getOutput(0).connectPatch(patches[25]);
+        key1Passthrough.getOutput(1).connectPatch(patches[26]);
+        key1Passthrough.getOutput(2).connectPatch(patches[27]);
+        key1Passthrough.getOutput(3).connectPatch(patches[28]);
+
+        pitchEnvelope1.getInput(0).connectPatch(patches[25]);
+        pitchEnvelope1.getInput(1).connectPatch(patches[26]);
+        oscillatorEnvelope1.getInput(1).connectPatch(patches[27]);
+        filterEnvelope1.getInput(1).connectPatch(patches[28]);
+
+        // 2nd key
+        key2Passthrough.getOutput(0).connectPatch(patches[29]);
+        key2Passthrough.getOutput(1).connectPatch(patches[30]);
+        key2Passthrough.getOutput(2).connectPatch(patches[31]);
+        key2Passthrough.getOutput(3).connectPatch(patches[32]);
+
+        pitchEnvelope2.getInput(0).connectPatch(patches[29]);
+        pitchEnvelope2.getInput(1).connectPatch(patches[30]);
+        oscillatorEnvelope2.getInput(1).connectPatch(patches[31]);
+        filterEnvelope2.getInput(1).connectPatch(patches[32]);
     }
 
     public Instrument getInstrument() {
@@ -278,6 +319,10 @@ public class InstrumentBoard {
     // 0, 1, 2, 3, 4
     public void setOctaveOffset1(int octaveOffset1) {
         this.octaveOffset1 = Math.max(0, Math.min(octaveOffset1, 4));
+
+        pitchEnvelope1
+                .getInput(0)
+                .setOutputRatio(OCTAVE_RATIOS[this.octaveOffset1] * this.oscillator1fineTune);
     }
 
     public int getOctaveOffset1() {
@@ -287,6 +332,10 @@ public class InstrumentBoard {
     // 0, 1, 2, 3, 4
     public void setOctaveOffset2(int octaveOffset2) {
         this.octaveOffset2 = Math.max(0, Math.min(octaveOffset2, 4));
+
+        pitchEnvelope2
+                .getInput(0)
+                .setOutputRatio(OCTAVE_RATIOS[this.octaveOffset2] * this.oscillator2fineTune);
     }
 
     public int getOctaveOffset2() {
@@ -299,6 +348,10 @@ public class InstrumentBoard {
 
     public void setOscillator1fineTune(double oscillator1fineTune) {
         this.oscillator1fineTune = Math.max(0.5, Math.min(oscillator1fineTune, 1.5));
+
+        pitchEnvelope1
+                .getInput(0)
+                .setOutputRatio(OCTAVE_RATIOS[octaveOffset1] * this.oscillator1fineTune);
     }
 
     public double getOscillator2fineTune() {
@@ -307,6 +360,10 @@ public class InstrumentBoard {
 
     public void setOscillator2fineTune(double oscillator2fineTune) {
         this.oscillator2fineTune = Math.max(0.5, Math.min(oscillator2fineTune, 1.5));
+
+        pitchEnvelope2
+                .getInput(0)
+                .setOutputRatio(OCTAVE_RATIOS[octaveOffset2] * this.oscillator2fineTune);
     }
 
     public void setOscillatorAttackLevel(double oscillatorAttackLevel) {

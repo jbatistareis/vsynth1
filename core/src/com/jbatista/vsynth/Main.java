@@ -43,6 +43,8 @@ public class Main extends ApplicationAdapter {
 
         background = new VisWindow("", false);
         background.setFillParent(true);
+        background.setMovable(false);
+        background.add(rack);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
@@ -50,7 +52,6 @@ public class Main extends ApplicationAdapter {
         Gdx.input.setInputProcessor(multiplexer);
 
         stage.addActor(background);
-        stage.addActor(rack);
 
         audioThread.start();
     }
@@ -83,8 +84,8 @@ public class Main extends ApplicationAdapter {
 
     private void processAudio() {
         while (audioOn) {
-            rack.getFrame(audioBuffer, 256);
-            audioDevice.writeSamples(audioBuffer, 0, 256);
+            rack.getFrame(audioBuffer, 512);
+            audioDevice.writeSamples(audioBuffer, 0, 512);
         }
     }
 

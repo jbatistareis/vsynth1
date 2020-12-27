@@ -153,6 +153,34 @@ public class InstrumentBoard {
         oscillator1.getInput(0).connectPatch(patches[21]);
         oscillator2.getInput(0).connectPatch(patches[22]);
 
+        // polyphony
+        keyboard.getOutput(0).connectPatch(patches[23]);
+        key1Passthrough.getInput(0).connectPatch(patches[23]);
+
+        key1Passthrough.getOutput(0).connectPatch(patches[24]);
+        key1Passthrough.getOutput(1).connectPatch(patches[25]);
+        key1Passthrough.getOutput(2).connectPatch(patches[26]);
+        key1Passthrough.getOutput(3).connectPatch(patches[27]);
+
+        pitchEnvelope1.getInput(0).connectPatch(patches[24]);
+        pitchEnvelope1.getInput(1).connectPatch(patches[25]);
+        oscillatorEnvelope1.getInput(1).connectPatch(patches[26]);
+        filterEnvelope1.getInput(1).connectPatch(patches[27]);
+
+        pitchEnvelope1.getController(8).setValue(1);
+
+        key2Passthrough.getOutput(0).connectPatch(patches[28]);
+        key2Passthrough.getOutput(1).connectPatch(patches[29]);
+        key2Passthrough.getOutput(2).connectPatch(patches[30]);
+        key2Passthrough.getOutput(3).connectPatch(patches[31]);
+
+        pitchEnvelope2.getInput(0).connectPatch(patches[28]);
+        pitchEnvelope2.getInput(1).connectPatch(patches[29]);
+        oscillatorEnvelope2.getInput(1).connectPatch(patches[30]);
+        filterEnvelope2.getInput(1).connectPatch(patches[31]);
+
+        pitchEnvelope2.getController(8).setValue(1);
+
         setMono();
     }
 
@@ -167,61 +195,17 @@ public class InstrumentBoard {
     public void setMono() {
         keyboard.getController(0).setValue(1);
 
-        keyboard.getOutput(0).connectPatch(patches[23]);
-        key1Passthrough.getInput(0).connectPatch(patches[23]);
-
-        // 1st key
-        key1Passthrough.getOutput(0).connectPatch(patches[24]);
-        key1Passthrough.getOutput(1).connectPatch(patches[25]);
-        key1Passthrough.getOutput(2).connectPatch(patches[26]);
-        key1Passthrough.getOutput(3).connectPatch(patches[27]);
-
-        pitchEnvelope1.getInput(0).connectPatch(patches[24]);
-        pitchEnvelope1.getInput(1).connectPatch(patches[25]);
-        oscillatorEnvelope1.getInput(1).connectPatch(patches[26]);
-        filterEnvelope1.getInput(1).connectPatch(patches[27]);
-
         // 2nd key
-        key1Passthrough.getOutput(4).connectPatch(patches[28]);
-        key1Passthrough.getOutput(5).connectPatch(patches[29]);
-        key1Passthrough.getOutput(6).connectPatch(patches[30]);
-        key1Passthrough.getOutput(7).connectPatch(patches[31]);
-
-        pitchEnvelope2.getInput(0).connectPatch(patches[28]);
-        pitchEnvelope2.getInput(1).connectPatch(patches[29]);
-        oscillatorEnvelope2.getInput(1).connectPatch(patches[30]);
-        filterEnvelope2.getInput(1).connectPatch(patches[31]);
+        key1Passthrough.getOutput(4).connectPatch(patches[32]);
+        key2Passthrough.getInput(0).connectPatch(patches[32]);
     }
 
     public void setPoly() {
         keyboard.getController(0).setValue(2);
 
-        keyboard.getOutput(0).connectPatch(patches[23]);
-        keyboard.getOutput(1).connectPatch(patches[24]);
-        key1Passthrough.getInput(0).connectPatch(patches[23]);
-        key2Passthrough.getInput(0).connectPatch(patches[24]);
-
-        // 1st key
-        key1Passthrough.getOutput(0).connectPatch(patches[25]);
-        key1Passthrough.getOutput(1).connectPatch(patches[26]);
-        key1Passthrough.getOutput(2).connectPatch(patches[27]);
-        key1Passthrough.getOutput(3).connectPatch(patches[28]);
-
-        pitchEnvelope1.getInput(0).connectPatch(patches[25]);
-        pitchEnvelope1.getInput(1).connectPatch(patches[26]);
-        oscillatorEnvelope1.getInput(1).connectPatch(patches[27]);
-        filterEnvelope1.getInput(1).connectPatch(patches[28]);
-
         // 2nd key
-        key2Passthrough.getOutput(0).connectPatch(patches[29]);
-        key2Passthrough.getOutput(1).connectPatch(patches[30]);
-        key2Passthrough.getOutput(2).connectPatch(patches[31]);
-        key2Passthrough.getOutput(3).connectPatch(patches[32]);
-
-        pitchEnvelope2.getInput(0).connectPatch(patches[29]);
-        pitchEnvelope2.getInput(1).connectPatch(patches[30]);
-        oscillatorEnvelope2.getInput(1).connectPatch(patches[31]);
-        filterEnvelope2.getInput(1).connectPatch(patches[32]);
+        keyboard.getOutput(1).connectPatch(patches[32]);
+        key2Passthrough.getInput(0).connectPatch(patches[32]);
     }
 
     public Instrument getInstrument() {
@@ -289,7 +273,7 @@ public class InstrumentBoard {
         return lowPassFilter1.getController(2).getValue() == 1;
     }
 
-    public void setFilterClosing(boolean value) {
+    public void setFilterCloses(boolean value) {
         final double result = value ? 1 : 0;
 
         lowPassFilter1.getController(2).setValue(result);

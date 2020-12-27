@@ -18,7 +18,7 @@ public class FilterPanel extends VisWindow {
     private final VisLabel lblRes = new VisLabel("Resonance");
     private final VisSlider sldRes = new VisSlider(0, 1, 0.01f, false);
 
-    private final VisCheckBox chkFilClose = new VisCheckBox("Mod. closes");
+    private final VisCheckBox chkFilCloses = new VisCheckBox("EG closes");
 
     public FilterPanel(InstrumentBoard instrumentBoard) {
         super("Filter", false);
@@ -30,12 +30,12 @@ public class FilterPanel extends VisWindow {
         add(sldCutoff).row();
         add(lblRes).row();
         add(sldRes).row();
-        add(chkFilClose).row();
+        add(chkFilCloses).row();
 
         // functions
         sldCutoff.setValue((float) instrumentBoard.getFilterCutoff());
         sldRes.setValue((float) instrumentBoard.getFilterRessonance());
-        chkFilClose.setChecked(instrumentBoard.isFilterClosing());
+        chkFilCloses.setChecked(instrumentBoard.isFilterClosing());
 
         sldCutoff.addListener(new ChangeListener() {
             @Override
@@ -51,10 +51,10 @@ public class FilterPanel extends VisWindow {
             }
         });
 
-        chkFilClose.addListener(new ChangeListener() {
+        chkFilCloses.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent changeEvent, Actor actor) {
-                instrumentBoard.setFilterClosing(chkFilClose.isChecked());
+                instrumentBoard.setFilterCloses(chkFilCloses.isChecked());
             }
         });
     }

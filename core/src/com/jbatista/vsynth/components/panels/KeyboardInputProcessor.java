@@ -341,4 +341,5 @@ public class KeyboardInputProcessor implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
 }

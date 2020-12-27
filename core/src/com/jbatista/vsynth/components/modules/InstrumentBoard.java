@@ -165,7 +165,7 @@ public class InstrumentBoard {
     }
 
     public void setMono() {
-        keyboard.getController(0).setValue(0);
+        keyboard.getController(0).setValue(1);
 
         keyboard.getOutput(0).connectPatch(patches[23]);
         key1Passthrough.getInput(0).connectPatch(patches[23]);

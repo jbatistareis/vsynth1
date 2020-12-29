@@ -6,11 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.Separator;
 import com.kotcrab.vis.ui.widget.VisSlider;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-public class EnvelopesPanel extends VisWindow {
-
-    private final InstrumentBoard instrumentBoard;
+public class EnvelopesPanel extends VisTable {
 
     private final HorizontalGroup grpOscLvl = new HorizontalGroup();
     private final VisSlider oscAtkLvl = new VisSlider(0, 1, 0.005f, true);
@@ -50,10 +49,6 @@ public class EnvelopesPanel extends VisWindow {
     private final VisSlider pitRelSpd = new VisSlider(0, 1, 0.005f, true);
 
     public EnvelopesPanel(InstrumentBoard instrumentBoard) {
-        super("Envelopes", false);
-        setMovable(false);
-        this.instrumentBoard = instrumentBoard;
-
         grpOscLvl.space(5);
         grpOscLvl.addActor(oscAtkLvl);
         grpOscLvl.addActor(oscDecLvl);

@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.jbatista.vsynth.components.modules.Rack;
 import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.widget.VisWindow;
 
 public class Main extends ApplicationAdapter {
 
@@ -27,8 +26,6 @@ public class Main extends ApplicationAdapter {
     private InstrumentBoard instrumentBoard;
     private Rack rack;
 
-    private VisWindow background;
-
     @Override
     public void create() {
         VisUI.load();
@@ -40,25 +37,20 @@ public class Main extends ApplicationAdapter {
 
         instrumentBoard = new InstrumentBoard();
         rack = new Rack(instrumentBoard);
-
-        background = new VisWindow("", false);
-        background.setFillParent(true);
-        background.setMovable(false);
-        background.add(rack);
+        rack.setFillParent(true);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(rack.getInputProcessor());
         Gdx.input.setInputProcessor(multiplexer);
 
-        stage.addActor(background);
-
+        stage.addActor(rack);
         audioThread.start();
     }
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0.15f, 0.15f, 0.16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

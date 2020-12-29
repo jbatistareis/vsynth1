@@ -11,13 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jbatista.bricks.KeyboardNote;
 import com.jbatista.vsynth.components.modules.InstrumentBoard;
+import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
-import com.kotcrab.vis.ui.widget.VisWindow;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class KeyboardPanel extends VisWindow {
+public class KeyboardPanel extends VisTable {
 
     private final InstrumentBoard instrumentBoard;
 
@@ -41,8 +41,6 @@ public class KeyboardPanel extends VisWindow {
     private boolean clicked = false;
 
     public KeyboardPanel(InstrumentBoard instrumentBoard) {
-        super("Keyboard", false);
-        setMovable(false);
         this.instrumentBoard = instrumentBoard;
 
         final KeyboardNote[] allNotes = KeyboardNote.values();
@@ -112,8 +110,6 @@ public class KeyboardPanel extends VisWindow {
         } else {
             title = "Octaves " + (index + 1) + "/" + (index + 2);
         }
-
-        getTitleLabel().setText(title);
 
         labelButtons.forEach(button -> {
             button.setColor(Color.WHITE);

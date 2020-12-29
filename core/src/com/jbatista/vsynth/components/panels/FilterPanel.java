@@ -6,11 +6,9 @@ import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.VisCheckBox;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class FilterPanel extends VisWindow {
-
-    private final InstrumentBoard instrumentBoard;
+public class FilterPanel extends VisTable {
 
     private final VisLabel lblCutoff = new VisLabel("Cutoff");
     private final VisSlider sldCutoff = new VisSlider(0, 1, 0.01f, false);
@@ -21,10 +19,6 @@ public class FilterPanel extends VisWindow {
     private final VisCheckBox chkFilCloses = new VisCheckBox("EG closes");
 
     public FilterPanel(InstrumentBoard instrumentBoard) {
-        super("Filter", false);
-        setMovable(false);
-        this.instrumentBoard = instrumentBoard;
-
         // layout
         add(lblCutoff).row();
         add(sldCutoff).row();

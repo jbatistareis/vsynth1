@@ -8,11 +8,9 @@ import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.Separator;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class OscillatorsPanel extends VisWindow {
-
-    private final InstrumentBoard instrumentBoard;
+public class OscillatorsPanel extends VisTable {
 
     private final VerticalGroup osc1Group = new VerticalGroup();
     private final VisLabel lblOsc1FineTune = new VisLabel("Fine tune");
@@ -31,10 +29,6 @@ public class OscillatorsPanel extends VisWindow {
     private final VisSlider sldOsc2Shape = new VisSlider(0, 4, 1, false);
 
     public OscillatorsPanel(InstrumentBoard instrumentBoard) {
-        super("Oscillators", false);
-        setMovable(false);
-        this.instrumentBoard = instrumentBoard;
-
         // layout
         add("OSC 1");
         add();

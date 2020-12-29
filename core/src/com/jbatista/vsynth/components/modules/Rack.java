@@ -30,7 +30,6 @@ public class Rack extends VisTable {
 
     public Rack(InstrumentBoard instrumentBoard) {
         this.instrumentBoard = instrumentBoard;
-        setFillParent(true);
 
         soundOut = new SoundOut(this.instrumentBoard.getInstrument());
 
@@ -45,18 +44,17 @@ public class Rack extends VisTable {
         this.instrumentBoard.getSoundOutput().connectPatch(patch);
         soundOut.getInput(0).connectPatch(patch);
 
-        add(modulationPanel).fillX();
-        add(new Separator()).padLeft(5).padRight(5).fillY();
-        add(oscillatorsPanel).fillX();
-        add(new Separator()).padLeft(5).padRight(5).fillY();
-        add(filterPanel).fillX();
-        add(new Separator()).padLeft(5).padRight(5).fillY();
-        add(envelopesPanel).fillX();
-        add(new Separator()).padLeft(5).padRight(5).fillY();
-        add(mixerPanel).fillX().row();
+        add(modulationPanel).center();
+        add(new Separator()).padLeft(4).padRight(4).fillY();
+        add(oscillatorsPanel).center();
+        add(new Separator()).padLeft(4).padRight(4).fillY();
+        add(filterPanel).center();
+        add(new Separator()).padLeft(4).padRight(4).fillY();
+        add(envelopesPanel).center();
+        add(new Separator()).padLeft(4).padRight(4).fillY();
+        add(mixerPanel).center().row();
 
-        add(new Separator()).colspan(9).fillX().row();
-        add(keyboardPanel).colspan(9).row();
+        add(keyboardPanel).colspan(11).padTop(10).center().row();
 
         setMode(Mode.MONO);
     }

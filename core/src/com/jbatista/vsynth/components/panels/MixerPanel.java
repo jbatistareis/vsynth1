@@ -4,11 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.VisSlider;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class MixerPanel extends VisWindow {
-
-    private final InstrumentBoard instrumentBoard;
+public class MixerPanel extends VisTable {
 
     private final VisSlider sldOsc1 = new VisSlider(0, 1, 0.01f, false);
     private final VisSlider sldOsc11 = new VisSlider(0, 1, 0.01f, false);
@@ -17,10 +15,6 @@ public class MixerPanel extends VisWindow {
     private final VisSlider sldGlobal = new VisSlider(0, 1, 0.01f, false);
 
     public MixerPanel(InstrumentBoard instrumentBoard) {
-        super("Mixer", false);
-        setMovable(false);
-        this.instrumentBoard = instrumentBoard;
-
         // layout
         add("OSC 1").row();
         add(sldOsc1).row();
@@ -35,7 +29,7 @@ public class MixerPanel extends VisWindow {
         add(sldNoise).row();
 
         add("Global").row();
-        add(sldGlobal).row();
+        add(sldGlobal).padBottom(10).row();
 
         sldOsc1.setValue((float) instrumentBoard.getOscillator1Volume());
         sldOsc11.setValue((float) instrumentBoard.getOscillator3Volume());

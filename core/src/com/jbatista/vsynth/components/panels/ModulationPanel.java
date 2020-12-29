@@ -6,11 +6,9 @@ import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.Separator;
 import com.kotcrab.vis.ui.widget.VisCheckBox;
 import com.kotcrab.vis.ui.widget.VisSlider;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.VisTable;
 
-public class ModulationPanel extends VisWindow {
-
-    private final InstrumentBoard instrumentBoard;
+public class ModulationPanel extends VisTable {
 
     private final VisSlider sldLfoFreq = new VisSlider(0, 1, 0.01f, false);
     private final VisSlider sldLfoShape = new VisSlider(0, 4, 1, false);
@@ -19,10 +17,6 @@ public class ModulationPanel extends VisWindow {
 
 
     public ModulationPanel(InstrumentBoard instrumentBoard) {
-        super("Modulation", false);
-        setMovable(false);
-        this.instrumentBoard = instrumentBoard;
-
         // layout
         add("LFO frequency").row();
         add(sldLfoFreq).row();

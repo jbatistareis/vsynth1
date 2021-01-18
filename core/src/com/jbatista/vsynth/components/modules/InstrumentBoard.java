@@ -65,7 +65,7 @@ public class InstrumentBoard {
         oscillator3.getInput(0).connectPatch(patches[0]);
 
         oscillator3.getController(0).setValue(1);
-        oscillator3.getInput(0).setOutputRatio(0.5);
+        oscillator3.getController(2).setValue(0.5);
 
         // lfo interaction
         lfo.getOutput(0).connectPatch(patches[1]);

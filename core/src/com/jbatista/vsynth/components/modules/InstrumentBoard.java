@@ -26,8 +26,6 @@ public class InstrumentBoard {
 
     private final Mixer oscillatorMixer1 = new Mixer(instrument);
     private final Mixer oscillatorMixer2 = new Mixer(instrument);
-    private final Mixer oscillatorFmMixer1 = new Mixer(instrument);
-    private final Mixer oscillatorFmMixer2 = new Mixer(instrument);
 
     private final Mixer mainMixer = new Mixer(instrument);
 
@@ -39,7 +37,7 @@ public class InstrumentBoard {
 
     private final Keyboard keyboard = new Keyboard(instrument);
 
-    private final Patch[] patches = new Patch[33];
+    private final Patch[] patches = new Patch[19];
 
     private int octaveOffset1 = 2;
     private int octaveOffset2 = 2;
@@ -62,90 +60,83 @@ public class InstrumentBoard {
         lfo.getOutput(0).connectPatch(patches[1]);
         lfo.getOutput(1).connectPatch(patches[2]);
 
-        oscillatorFmMixer1.getInput(0).connectPatch(patches[1]);
-        oscillatorFmMixer2.getInput(0).connectPatch(patches[2]);
-
-        oscillatorFmMixer1.getOutput(0).connectPatch(patches[3]);
-        oscillatorFmMixer2.getOutput(0).connectPatch(patches[4]);
-
-        oscillator1.getInput(1).connectPatch(patches[3]);
-        oscillator2.getInput(1).connectPatch(patches[4]);
-        oscillator3.getInput(1).connectPatch(patches[3]);
+        oscillator1.getInput(1).connectPatch(patches[1]);
+        oscillator2.getInput(1).connectPatch(patches[2]);
+        oscillator3.getInput(1).connectPatch(patches[1]);
 
         // noise setup: always active, starts muted
         noise.getInput(0).write(1);
         noise.getController(0).setValue(5);
         noise.getController(3).setValue(0);
 
-        noise.getOutput(1).connectPatch(patches[7]);
+        noise.getOutput(1).connectPatch(patches[3]);
 
         // mixer setup: oscillator 1, 3, noise
-        oscillator1.getOutput(1).connectPatch(patches[8]);
-        oscillator3.getOutput(1).connectPatch(patches[9]);
+        oscillator1.getOutput(1).connectPatch(patches[4]);
+        oscillator3.getOutput(1).connectPatch(patches[5]);
 
         oscillatorMixer1.getController(0).setValue(0.05);
         oscillatorMixer1.getController(1).setValue(0.05);
         oscillatorMixer1.getController(2).setValue(0.005);
-        oscillatorMixer1.getInput(0).connectPatch(patches[8]);
-        oscillatorMixer1.getInput(1).connectPatch(patches[9]);
-        oscillatorMixer1.getInput(2).connectPatch(patches[7]);
+        oscillatorMixer1.getInput(0).connectPatch(patches[3]);
+        oscillatorMixer1.getInput(1).connectPatch(patches[4]);
+        oscillatorMixer1.getInput(2).connectPatch(patches[5]);
 
         // mixer setup: oscillator 2, noise
-        oscillator2.getOutput(1).connectPatch(patches[11]);
+        oscillator2.getOutput(1).connectPatch(patches[6]);
 
         oscillatorMixer2.getController(0).setValue(0.05);
         oscillatorMixer2.getController(1).setValue(0.005);
-        oscillatorMixer2.getInput(0).connectPatch(patches[11]);
-        oscillatorMixer2.getInput(1).connectPatch(patches[7]);
+        oscillatorMixer2.getInput(0).connectPatch(patches[6]);
+        oscillatorMixer2.getInput(1).connectPatch(patches[3]);
 
         // oscillator envelope setup
-        oscillatorMixer1.getOutput(0).connectPatch(patches[13]);
-        oscillatorMixer2.getOutput(0).connectPatch(patches[14]);
+        oscillatorMixer1.getOutput(0).connectPatch(patches[7]);
+        oscillatorMixer2.getOutput(0).connectPatch(patches[8]);
 
-        oscillatorEnvelope1.getInput(0).connectPatch(patches[13]);
-        oscillatorEnvelope2.getInput(0).connectPatch(patches[14]);
+        oscillatorEnvelope1.getInput(0).connectPatch(patches[7]);
+        oscillatorEnvelope2.getInput(0).connectPatch(patches[8]);
 
         // filter setup
-        oscillatorEnvelope1.getOutput(0).connectPatch(patches[15]);
-        oscillatorEnvelope2.getOutput(0).connectPatch(patches[16]);
+        oscillatorEnvelope1.getOutput(0).connectPatch(patches[9]);
+        oscillatorEnvelope2.getOutput(0).connectPatch(patches[10]);
 
-        lowPassFilter1.getInput(0).connectPatch(patches[15]);
-        lowPassFilter2.getInput(0).connectPatch(patches[16]);
+        lowPassFilter1.getInput(0).connectPatch(patches[9]);
+        lowPassFilter2.getInput(0).connectPatch(patches[10]);
 
         // filter envelope setup
         filterEnvelope1.getInput(0).write(1);
         filterEnvelope2.getInput(0).write(1);
 
-        filterEnvelope1.getOutput(0).connectPatch(patches[17]);
-        filterEnvelope2.getOutput(0).connectPatch(patches[18]);
+        filterEnvelope1.getOutput(0).connectPatch(patches[11]);
+        filterEnvelope2.getOutput(0).connectPatch(patches[12]);
 
-        lowPassFilter1.getInput(1).connectPatch(patches[17]);
-        lowPassFilter2.getInput(1).connectPatch(patches[18]);
+        lowPassFilter1.getInput(1).connectPatch(patches[11]);
+        lowPassFilter2.getInput(1).connectPatch(patches[12]);
 
         // mixer setup: main
-        lowPassFilter1.getOutput(0).connectPatch(patches[19]);
-        lowPassFilter2.getOutput(0).connectPatch(patches[20]);
+        lowPassFilter1.getOutput(0).connectPatch(patches[13]);
+        lowPassFilter2.getOutput(0).connectPatch(patches[14]);
 
-        mainMixer.getInput(0).connectPatch(patches[19]);
-        mainMixer.getInput(1).connectPatch(patches[20]);
+        mainMixer.getInput(0).connectPatch(patches[13]);
+        mainMixer.getInput(1).connectPatch(patches[14]);
 
         // oscillator pitch envelopes
-        pitchEnvelope1.getOutput(0).connectPatch(patches[21]);
-        pitchEnvelope2.getOutput(0).connectPatch(patches[22]);
+        pitchEnvelope1.getOutput(0).connectPatch(patches[15]);
+        pitchEnvelope2.getOutput(0).connectPatch(patches[16]);
 
-        oscillator1.getInput(0).connectPatch(patches[21]);
-        oscillator2.getInput(0).connectPatch(patches[22]);
+        oscillator1.getInput(0).connectPatch(patches[15]);
+        oscillator2.getInput(0).connectPatch(patches[16]);
 
         // polyphony
-        keyboard.getOutput(0).connectPatch(patches[23]);
+        keyboard.getOutput(0).connectPatch(patches[17]);
 
-        pitchEnvelope1.getInput(0).connectPatch(patches[23]);
-        pitchEnvelope1.getInput(1).connectPatch(patches[23]);
-        oscillatorEnvelope1.getInput(1).connectPatch(patches[23]);
-        filterEnvelope1.getInput(1).connectPatch(patches[23]);
+        pitchEnvelope1.getInput(0).connectPatch(patches[17]);
+        pitchEnvelope1.getInput(1).connectPatch(patches[17]);
+        oscillatorEnvelope1.getInput(1).connectPatch(patches[17]);
+        filterEnvelope1.getInput(1).connectPatch(patches[17]);
 
         pitchEnvelope1.getController(8).setValue(1);
-
         pitchEnvelope2.getController(8).setValue(1);
 
         setMono();
@@ -168,10 +159,10 @@ public class InstrumentBoard {
         oscillatorEnvelope2.getInput(1).disconnectAllPatches();
         filterEnvelope2.getInput(1).disconnectAllPatches();
 
-        pitchEnvelope2.getInput(0).connectPatch(patches[23]);
-        pitchEnvelope2.getInput(1).connectPatch(patches[23]);
-        oscillatorEnvelope2.getInput(1).connectPatch(patches[23]);
-        filterEnvelope2.getInput(1).connectPatch(patches[23]);
+        pitchEnvelope2.getInput(0).connectPatch(patches[17]);
+        pitchEnvelope2.getInput(1).connectPatch(patches[17]);
+        oscillatorEnvelope2.getInput(1).connectPatch(patches[17]);
+        filterEnvelope2.getInput(1).connectPatch(patches[17]);
     }
 
     public void setPoly() {
@@ -183,12 +174,12 @@ public class InstrumentBoard {
         oscillatorEnvelope2.getInput(1).disconnectAllPatches();
         filterEnvelope2.getInput(1).disconnectAllPatches();
 
-        keyboard.getOutput(1).connectPatch(patches[32]);
+        keyboard.getOutput(1).connectPatch(patches[18]);
 
-        pitchEnvelope2.getInput(0).connectPatch(patches[32]);
-        pitchEnvelope2.getInput(1).connectPatch(patches[32]);
-        oscillatorEnvelope2.getInput(1).connectPatch(patches[32]);
-        filterEnvelope2.getInput(1).connectPatch(patches[32]);
+        pitchEnvelope2.getInput(0).connectPatch(patches[18]);
+        pitchEnvelope2.getInput(1).connectPatch(patches[18]);
+        oscillatorEnvelope2.getInput(1).connectPatch(patches[18]);
+        filterEnvelope2.getInput(1).connectPatch(patches[18]);
     }
 
     public Instrument getInstrument() {
@@ -217,11 +208,11 @@ public class InstrumentBoard {
         this.onlyModulateOscillator2 = value;
 
         if (this.onlyModulateOscillator2) {
-            oscillator1.getInput(1).disconnectPatch(patches[5]);
-            oscillator3.getInput(1).disconnectPatch(patches[6]);
+            oscillator1.getInput(1).disconnectPatch(patches[1]);
+            oscillator3.getInput(1).disconnectPatch(patches[1]);
         } else {
-            oscillator1.getInput(1).connectPatch(patches[5]);
-            oscillator3.getInput(1).connectPatch(patches[6]);
+            oscillator1.getInput(1).connectPatch(patches[1]);
+            oscillator3.getInput(1).connectPatch(patches[1]);
         }
     }
 

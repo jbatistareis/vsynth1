@@ -7,46 +7,47 @@ import com.jbatista.vsynth.components.modules.InstrumentBoard;
 import com.kotcrab.vis.ui.widget.Separator;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisWindow;
 
 public class EnvelopesPanel extends VisTable {
 
+    private static final float STEP_SIZE = 1f / 128;
+
     private final HorizontalGroup grpOscLvl = new HorizontalGroup();
-    private final VisSlider oscAtkLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider oscDecLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider oscSusLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider oscRelLvl = new VisSlider(0, 1, 0.005f, true);
+    private final VisSlider oscAtkLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider oscDecLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider oscSusLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider oscRelLvl = new VisSlider(0, 1, STEP_SIZE, true);
 
     private final HorizontalGroup grpFilLvl = new HorizontalGroup();
-    private final VisSlider filAtkLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider filDecLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider filSusLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider filRelLvl = new VisSlider(0, 1, 0.005f, true);
+    private final VisSlider filAtkLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider filDecLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider filSusLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider filRelLvl = new VisSlider(0, 1, STEP_SIZE, true);
 
     private final HorizontalGroup grpPitLvl = new HorizontalGroup();
-    private final VisSlider pitAtkLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider pitDecLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider pitSusLvl = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider pitRelLvl = new VisSlider(0, 1, 0.005f, true);
+    private final VisSlider pitAtkLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider pitDecLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider pitSusLvl = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider pitRelLvl = new VisSlider(0, 1, STEP_SIZE, true);
 
 
     private final HorizontalGroup grpOscSpd = new HorizontalGroup();
-    private final VisSlider oscAtkSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider oscDecSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider oscSusSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider oscRelSpd = new VisSlider(0, 1, 0.005f, true);
+    private final VisSlider oscAtkSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider oscDecSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider oscSusSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider oscRelSpd = new VisSlider(0, 1, STEP_SIZE, true);
 
     private final HorizontalGroup grpFilSpd = new HorizontalGroup();
-    private final VisSlider filAtkSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider filDecSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider filSusSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider filRelSpd = new VisSlider(0, 1, 0.005f, true);
+    private final VisSlider filAtkSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider filDecSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider filSusSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider filRelSpd = new VisSlider(0, 1, STEP_SIZE, true);
 
     private final HorizontalGroup grpPitSpd = new HorizontalGroup();
-    private final VisSlider pitAtkSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider pitDecSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider pitSusSpd = new VisSlider(0, 1, 0.005f, true);
-    private final VisSlider pitRelSpd = new VisSlider(0, 1, 0.005f, true);
+    private final VisSlider pitAtkSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider pitDecSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider pitSusSpd = new VisSlider(0, 1, STEP_SIZE, true);
+    private final VisSlider pitRelSpd = new VisSlider(0, 1, STEP_SIZE, true);
 
     public EnvelopesPanel(InstrumentBoard instrumentBoard) {
         grpOscLvl.space(5);
